@@ -1,0 +1,154 @@
+.hero {
+  max-width: var(--max-width-editorial);
+  margin: 0 auto;
+  padding: 64px 24px 48px;
+  text-align: center;
+}
+
+.kicker {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  color: var(--accent-terracotta);
+  text-transform: uppercase;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.headline {
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  line-height: 1.15;
+  color: var(--ink-primary);
+  max-width: 920px;
+  margin: 0 auto 20px;
+  font-weight: 400;
+}
+
+.headline em {
+  font-style: italic;
+  font-family: var(--font-serif-display);
+  color: var(--accent-terracotta);
+}
+
+.description {
+  font-size: 1.1rem;
+  color: var(--ink-secondary);
+  max-width: 680px;
+  margin: 0 auto 40px;
+  line-height: 1.6;
+}
+
+.inputWrapper {
+  max-width: 760px;
+  margin: 0 auto 28px;
+  background: var(--bg-surface);
+  border: var(--border-crisp);
+  border-radius: var(--radius-minimal);
+  box-shadow: var(--shadow-subtle);
+  padding: 8px 12px 8px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.25s ease;
+}
+
+.inputWrapper:focus-within {
+  border-color: var(--accent-terracotta);
+  box-shadow: 0 0 0 3px rgba(195, 107, 78, 0.12);
+}
+
+.input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  color: var(--ink-primary);
+  outline: none;
+  padding: 10px 0;
+}
+
+.input::placeholder {
+  color: var(--ink-muted);
+}
+
+.submitBtn {
+  background: var(--accent-terracotta);
+  color: #ffffff;
+  border: none;
+  padding: 12px 24px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: var(--radius-minimal);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.submitBtn:hover:not(:disabled) {
+  background: var(--accent-terracotta-hover);
+  transform: translateY(-1px);
+}
+
+.submitBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.suggestionsSection {
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.suggestionsLabel {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-tertiary);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+  display: block;
+}
+
+.pillGrid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.pill {
+  background: var(--bg-subtle);
+  border: var(--border-hairline);
+  color: var(--ink-secondary);
+  padding: 8px 14px;
+  font-size: 0.82rem;
+  border-radius: var(--radius-minimal);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.pill:hover {
+  background: var(--bg-surface);
+  border-color: var(--accent-terracotta);
+  color: var(--ink-primary);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 40px 16px 32px;
+  }
+  .inputWrapper {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px;
+  }
+  .submitBtn {
+    width: 100%;
+    padding: 14px;
+  }
+}
