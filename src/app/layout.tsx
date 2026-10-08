@@ -1,5 +1,9 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import './globals.css';
+
+export const viewport: Viewport = {
+  themeColor: '#F9F6F0',
+};
 
 export const metadata: Metadata = {
   title: 'Vibe Architect — Cultural Intelligence & Spatial Atmosphere Designer',
@@ -15,7 +19,6 @@ export const metadata: Metadata = {
     'Spatial Architecture',
   ],
   authors: [{ name: 'Vibe Architect Collective' }],
-  themeColor: '#F9F6F0',
   openGraph: {
     title: 'Vibe Architect — Grounded in Qloo Cultural Intelligence',
     description:
