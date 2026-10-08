@@ -1,0 +1,100 @@
+.header {
+  width: 100%;
+  border-bottom: var(--border-hairline);
+  background: var(--bg-primary);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(8px);
+}
+
+.inner {
+  max-width: var(--max-width-editorial);
+  margin: 0 auto;
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.logoTitle {
+  font-family: var(--font-serif-masthead);
+  font-size: 1.25rem;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  color: var(--ink-primary);
+  text-transform: uppercase;
+}
+
+.issueTag {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-tertiary);
+  border-left: var(--border-hairline);
+  padding-left: 14px;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.qlooBadge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background: var(--bg-surface);
+  border: var(--border-crisp);
+  border-radius: var(--radius-minimal);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--ink-secondary);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.qlooBadge:hover {
+  border-color: var(--accent-terracotta);
+  color: var(--accent-terracotta);
+}
+
+.dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--accent-sage);
+  display: inline-block;
+  animation: pulse 2s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 640px) {
+  .issueTag {
+    display: none;
+  }
+  .inner {
+    padding: 14px 16px;
+  }
+  .logoTitle {
+    font-size: 1.05rem;
+  }
+}
