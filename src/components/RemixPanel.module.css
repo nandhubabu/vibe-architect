@@ -1,0 +1,124 @@
+.panel {
+  max-width: var(--max-width-editorial);
+  margin: 0 auto 64px;
+  padding: 0 24px;
+}
+
+.inner {
+  background: var(--bg-surface);
+  border: var(--border-crisp);
+  border-radius: var(--radius-card);
+  padding: 28px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: var(--border-hairline);
+  padding-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.title {
+  font-size: 1.35rem;
+  color: var(--ink-primary);
+}
+
+.kicker {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--accent-terracotta);
+  text-transform: uppercase;
+}
+
+.slidersGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 28px;
+}
+
+.sliderGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sliderLabels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--ink-secondary);
+  font-family: var(--font-mono);
+}
+
+.rangeInput {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 4px;
+  background: var(--bg-subtle);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+
+.rangeInput::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent-terracotta);
+  cursor: pointer;
+  border: 2px solid #ffffff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 14px;
+  padding-top: 14px;
+  border-top: var(--border-hairline);
+}
+
+.remixBtn {
+  background: var(--ink-primary);
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: var(--radius-minimal);
+  transition: all 0.2s ease;
+}
+
+.remixBtn:hover {
+  background: var(--accent-terracotta);
+}
+
+.shareBtn {
+  background: transparent;
+  color: var(--ink-primary);
+  border: var(--border-crisp);
+  padding: 10px 18px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: var(--radius-minimal);
+  transition: all 0.2s ease;
+}
+
+.shareBtn:hover {
+  border-color: var(--accent-terracotta);
+  color: var(--accent-terracotta);
+}
