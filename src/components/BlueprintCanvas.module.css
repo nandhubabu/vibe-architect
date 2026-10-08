@@ -1,0 +1,212 @@
+.canvasContainer {
+  max-width: var(--max-width-editorial);
+  margin: 40px auto 80px;
+  padding: 0 24px;
+}
+
+.mastheadMeta {
+  border-top: var(--border-strong);
+  border-bottom: var(--border-hairline);
+  padding: 24px 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.blueprintTitle {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  color: var(--ink-primary);
+  line-height: 1.15;
+  margin-bottom: 8px;
+}
+
+.blueprintSubtitle {
+  font-family: var(--font-serif-display);
+  font-style: italic;
+  font-size: 1.15rem;
+  color: var(--accent-terracotta);
+}
+
+.affinityScoreBox {
+  text-align: right;
+  border-left: var(--border-hairline);
+  padding-left: 20px;
+}
+
+.scoreValue {
+  font-family: var(--font-mono);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--ink-primary);
+  display: block;
+}
+
+.scoreLabel {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-tertiary);
+  text-transform: uppercase;
+}
+
+.overviewSection {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 36px;
+  margin-bottom: 48px;
+  padding-bottom: 36px;
+  border-bottom: var(--border-hairline);
+}
+
+.narrativeText {
+  font-family: var(--font-serif-display);
+  font-size: 1.25rem;
+  line-height: 1.7;
+  color: var(--ink-primary);
+}
+
+.curatorBox {
+  background: var(--bg-surface);
+  border: var(--border-crisp);
+  border-left: 3px solid var(--accent-terracotta);
+  padding: 20px;
+  border-radius: var(--radius-minimal);
+}
+
+.curatorTitle {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--accent-terracotta);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.curatorText {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--ink-secondary);
+}
+
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 28px;
+  margin-bottom: 48px;
+}
+
+.card {
+  background: var(--bg-surface);
+  border: var(--border-crisp);
+  border-radius: var(--radius-card);
+  padding: 26px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+  position: relative;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-terracotta);
+}
+
+.cardCategory {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  color: var(--accent-terracotta);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cardTheme {
+  font-size: 1.35rem;
+  color: var(--ink-primary);
+  margin-bottom: 16px;
+  line-height: 1.25;
+}
+
+.entityList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.entityItem {
+  padding-bottom: 10px;
+  border-bottom: var(--border-hairline);
+}
+
+.entityItem:last-child {
+  border-bottom: none;
+}
+
+.entityHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.entityName {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--ink-primary);
+}
+
+.entityAffinity {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--accent-sage);
+  background: var(--bg-sage-soft);
+  padding: 2px 6px;
+  border-radius: var(--radius-minimal);
+}
+
+.entityDesc {
+  font-size: 0.82rem;
+  color: var(--ink-secondary);
+  line-height: 1.45;
+}
+
+.cardFooter {
+  border-top: var(--border-hairline);
+  padding-top: 14px;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: var(--ink-tertiary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footerDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--accent-terracotta);
+}
+
+@media (max-width: 860px) {
+  .overviewSection {
+    grid-template-columns: 1fr;
+  }
+  .affinityScoreBox {
+    text-align: left;
+    border-left: none;
+    border-top: var(--border-hairline);
+    padding-left: 0;
+    padding-top: 14px;
+    width: 100%;
+  }
+}
