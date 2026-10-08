@@ -20,7 +20,7 @@ const DEFAULT_INITIAL_BLUEPRINT: CulturalBlueprint = {
   curatorNotes:
     'Synthesized through Qloo’s 250M+ cultural entity graph. Cross-domain correlations establish harmony between Bill Evans’ harmonic phrasing, Lemaire’s tactile tailoring, and low-slung walnut joinery.',
   prompt: 'A candlelit vinyl listening salon with Miles Davis, natural wine, and architectural lighting',
-  createdAt: new Date().toISOString(),
+  createdAt: '2026-10-09T00:00:00.000Z',
   categories: {
     soundtrack: {
       theme: 'Modal Jazz & Acoustic Breathing Room',
