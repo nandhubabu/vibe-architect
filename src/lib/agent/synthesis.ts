@@ -98,7 +98,7 @@ Please output a JSON object containing enriched editorial copy for this blueprin
 }`;
 
       const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: 'gemini-3.8-flash',
         contents: [
           { role: 'user', parts: [{ text: `${AGENT_SYSTEM_PROMPT}\n\n${userMessage}` }] },
         ],
