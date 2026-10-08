@@ -1,49 +1,119 @@
+/* Editorial Magazine Design System — Vibe Architect */
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;1,6..72,300;1,6..72,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap');
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  /* Warm editorial earth palette */
+  --bg-primary: #F9F6F0;
+  --bg-surface: #FFFFFF;
+  --bg-subtle: #F3EFE7;
+  --bg-terracotta-soft: #F5EAE5;
+  --bg-sage-soft: #EDF2EB;
+  
+  --ink-primary: #22201E;
+  --ink-secondary: #585551;
+  --ink-tertiary: #87837D;
+  --ink-muted: #B3ADA5;
+  
+  --accent-terracotta: #C36B4E;
+  --accent-terracotta-hover: #A8573D;
+  --accent-sage: #6B7F67;
+  --accent-ochre: #C49A45;
+  --accent-slate: #444E57;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+  /* Architectural lines & borders */
+  --border-hairline: 1px solid rgba(34, 32, 30, 0.10);
+  --border-crisp: 1px solid rgba(34, 32, 30, 0.18);
+  --border-strong: 1px solid rgba(34, 32, 30, 0.85);
 
-html {
-  height: 100%;
-}
+  /* Editorial typography */
+  --font-serif-display: 'Newsreader', Georgia, serif;
+  --font-serif-masthead: 'Cinzel', serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'Space Mono', monospace;
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
+  /* Elevation */
+  --shadow-subtle: 0 4px 20px -2px rgba(34, 32, 30, 0.04);
+  --shadow-editorial: 0 12px 36px -4px rgba(34, 32, 30, 0.08);
 
-body {
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* Layout geometry */
+  --max-width-editorial: 1280px;
+  --radius-minimal: 2px;
+  --radius-card: 4px;
 }
 
 * {
   box-sizing: border-box;
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+html {
+  background-color: var(--bg-primary);
+  color: var(--ink-primary);
+  font-family: var(--font-sans);
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+body {
+  background-color: var(--bg-primary);
+  color: var(--ink-primary);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Editorial typography utilities */
+h1, h2, h3, h4, .serif-heading {
+  font-family: var(--font-serif-display);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  color: var(--ink-primary);
+}
+
+.masthead-title {
+  font-family: var(--font-serif-masthead);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.mono-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-tertiary);
+}
+
+.editorial-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  background: var(--bg-subtle);
+  border: var(--border-hairline);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-secondary);
+  border-radius: var(--radius-minimal);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-crisp);
+  border-radius: 3px;
+}
+
+/* Selection */
+::selection {
+  background: var(--bg-terracotta-soft);
+  color: var(--accent-terracotta);
 }
