@@ -1,0 +1,128 @@
+.container {
+  max-width: var(--max-width-editorial);
+  margin: 0 auto 64px;
+  padding: 0 24px;
+}
+
+.box {
+  background: var(--bg-surface);
+  border: var(--border-crisp);
+  border-radius: var(--radius-card);
+  padding: 36px;
+  box-shadow: var(--shadow-subtle);
+}
+
+.titleArea {
+  border-bottom: var(--border-hairline);
+  padding-bottom: 20px;
+  margin-bottom: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.heading {
+  font-size: 1.6rem;
+  color: var(--ink-primary);
+}
+
+.badge {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--accent-terracotta);
+  background: var(--bg-terracotta-soft);
+  padding: 4px 10px;
+  border-radius: var(--radius-minimal);
+  text-transform: uppercase;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 28px;
+  margin-bottom: 32px;
+}
+
+.sensoryCell {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cellLabel {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  color: var(--ink-tertiary);
+  text-transform: uppercase;
+}
+
+.cellValue {
+  font-size: 1.05rem;
+  color: var(--ink-primary);
+  font-weight: 500;
+}
+
+.cellDesc {
+  font-size: 0.86rem;
+  color: var(--ink-secondary);
+  line-height: 1.5;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.tag {
+  background: var(--bg-subtle);
+  border: var(--border-hairline);
+  padding: 4px 8px;
+  font-size: 0.76rem;
+  border-radius: var(--radius-minimal);
+  color: var(--ink-secondary);
+}
+
+.conversationSection {
+  border-top: var(--border-hairline);
+  padding-top: 24px;
+}
+
+.conversationLabel {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: var(--accent-terracotta);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.conversationList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.conversationItem {
+  font-family: var(--font-serif-display);
+  font-size: 1.05rem;
+  color: var(--ink-primary);
+  line-height: 1.5;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.quoteMark {
+  font-family: var(--font-mono);
+  color: var(--accent-terracotta);
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
