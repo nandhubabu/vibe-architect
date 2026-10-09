@@ -11,7 +11,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  margin-bottom: 32px;
+  margin-bottom: 28px;
   flex-wrap: wrap;
   gap: 16px;
 }
@@ -26,7 +26,7 @@
 .blueprintSubtitle {
   font-family: var(--font-serif-display);
   font-style: italic;
-  font-size: 1.15rem;
+  font-size: 1.18rem;
   color: var(--accent-terracotta);
 }
 
@@ -56,8 +56,8 @@
   display: grid;
   grid-template-columns: 2fr 1fr;
   gap: 36px;
-  margin-bottom: 48px;
-  padding-bottom: 36px;
+  margin-bottom: 32px;
+  padding-bottom: 28px;
   border-bottom: var(--border-hairline);
 }
 
@@ -92,11 +92,318 @@
   color: var(--ink-secondary);
 }
 
+/* Mode Switcher Tabs */
+.viewToggleBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+  padding-bottom: 16px;
+  border-bottom: var(--border-hairline);
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.tabGroup {
+  display: inline-flex;
+  background: var(--bg-surface);
+  border: var(--border-crisp);
+  border-radius: var(--radius-minimal);
+  padding: 4px;
+  gap: 4px;
+}
+
+.tabBtn {
+  background: transparent;
+  border: none;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  border-radius: var(--radius-minimal);
+  color: var(--ink-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tabBtnActive {
+  background: var(--ink-primary);
+  color: var(--bg-paper);
+  font-weight: 600;
+}
+
+.viewContextHint {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--ink-tertiary);
+  letter-spacing: 0.05em;
+}
+
+/* ==========================================================
+   THE 3-PILLAR EXPERIENTIAL DOSSIER
+   ========================================================== */
+.pillarsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin-bottom: 40px;
+}
+
+.pillarCard {
+  background: var(--bg-surface);
+  border: var(--border-crisp);
+  border-radius: var(--radius-card);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.pillarCard:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-terracotta);
+}
+
+.pillarHeader {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: var(--border-hairline);
+}
+
+.pillarTag {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  color: var(--accent-terracotta);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.pillarTitle {
+  font-size: 1.4rem;
+  color: var(--ink-primary);
+  line-height: 1.25;
+}
+
+.pillarBody {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex-grow: 1;
+}
+
+.sectionBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.blockLabel {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  color: var(--ink-tertiary);
+  text-transform: uppercase;
+}
+
+.blockHeading {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--ink-primary);
+  line-height: 1.35;
+}
+
+.blockText {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--ink-secondary);
+}
+
+.kelvinBadge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent-terracotta);
+  background: rgba(195, 107, 78, 0.08);
+  border: 1px solid rgba(195, 107, 78, 0.2);
+  padding: 4px 10px;
+  border-radius: var(--radius-minimal);
+  margin-top: 4px;
+}
+
+.tagPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+}
+
+.tagPill {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  background: var(--bg-hover);
+  border: var(--border-hairline);
+  color: var(--ink-primary);
+  padding: 3px 8px;
+  border-radius: var(--radius-minimal);
+}
+
+.touchstoneList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.touchstoneItem {
+  background: var(--bg-paper);
+  border: var(--border-hairline);
+  padding: 10px 12px;
+  border-radius: var(--radius-minimal);
+}
+
+.touchstoneName {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--ink-primary);
+  display: block;
+}
+
+.touchstoneAffinity {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--accent-sage);
+  margin-left: 6px;
+}
+
+.touchstoneDesc {
+  font-size: 0.78rem;
+  color: var(--ink-secondary);
+  line-height: 1.45;
+  margin-top: 3px;
+}
+
+.pillarFooter {
+  border-top: var(--border-hairline);
+  padding-top: 14px;
+  margin-top: 20px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--ink-tertiary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footerDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--accent-terracotta);
+}
+
+/* Conversation Anchors */
+.conversationSection {
+  background: var(--bg-surface);
+  border: var(--border-crisp);
+  border-radius: var(--radius-card);
+  padding: 28px 32px;
+  margin-bottom: 40px;
+}
+
+.conversationHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: var(--border-hairline);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.conversationLabel {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: var(--accent-terracotta);
+  text-transform: uppercase;
+}
+
+.conversationSubtitle {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--ink-tertiary);
+}
+
+.conversationList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.conversationItem {
+  display: flex;
+  gap: 16px;
+  font-family: var(--font-serif-display);
+  font-size: 1.12rem;
+  color: var(--ink-primary);
+  line-height: 1.6;
+}
+
+.quoteMark {
+  color: var(--accent-terracotta);
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+
+/* ==========================================================
+   TECHNICAL 5-DIMENSION QLOO GRAPH VIEW (FOR JUDGES)
+   ========================================================== */
+.technicalView {
+  margin-bottom: 40px;
+}
+
+.technicalNotice {
+  background: var(--bg-surface);
+  border: 1px dashed var(--border-strong);
+  padding: 16px 20px;
+  border-radius: var(--radius-minimal);
+  margin-bottom: 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.noticeTitle {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  color: var(--ink-primary);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.noticeText {
+  font-size: 0.82rem;
+  color: var(--ink-secondary);
+}
+
 .cardsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
   gap: 28px;
-  margin-bottom: 48px;
+  margin-bottom: 32px;
 }
 
 .card {
@@ -190,13 +497,6 @@
   gap: 8px;
 }
 
-.footerDot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background-color: var(--accent-terracotta);
-}
-
 .expandToggle {
   background: var(--bg-surface);
   border: var(--border-hairline);
@@ -218,6 +518,12 @@
   border-color: var(--accent-terracotta);
 }
 
+@media (max-width: 1024px) {
+  .pillarsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 860px) {
   .overviewSection {
     grid-template-columns: 1fr;
@@ -231,4 +537,3 @@
     width: 100%;
   }
 }
-

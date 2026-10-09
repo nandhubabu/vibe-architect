@@ -29,7 +29,7 @@
 4. [Browser Search & Taste History Ingestion](#-browser-search--taste-history-ingestion)
 5. [Strict List Capping & Curatorial Balance (Top 3–5)](#-strict-list-capping--curatorial-balance)
 6. [Agent Architecture & Reasoning Loop](#-agent-architecture--reasoning-loop)
-7. [The 6-Dimensional Cultural Blueprint](#-the-6-dimensional-cultural-blueprint)
+7. [The 3-Pillar Experiential Dossier (Powered by Qloo 5D Graph)](#-the-3-pillar-experiential-dossier-powered-by-qloo-5d-graph)
 8. [Editorial Design Philosophy](#-editorial-design-philosophy)
 9. [Real-World Lateral Use Cases](#-real-world-lateral-use-cases)
 10. [API & Engineering Architecture](#-api--engineering-architecture)
@@ -220,20 +220,47 @@ Vibe Architect executes a **6-stage autonomous reasoning pipeline** that harmoni
 
 ---
 
-## 🎨 The 6-Dimensional Cultural Blueprint
+## 🎨 The 3-Pillar Experiential Dossier (Powered by Qloo 5D Graph)
 
-Every generated blueprint provides an exhaustive, multi-sensory specification:
+Rather than overwhelming users with disconnected database tables, Vibe Architect weaves Qloo's 5-dimensional graph traversal into a cohesive, tactile **3-Pillar Experiential Dossier**:
 
-1. 🎵 **Acoustic Architecture**: Music artists, album aesthetics, harmonic texture, and tempo (BPM).
-2. 🍽️ **Gastronomy & Libations**: Cuisine philosophy, artisanal food pairings, and specific cellar/craft cocktails.
-3. 🎬 **Visual & Cinematic Tone**: Director aesthetics, color grading palettes, and cinematographic framing motifs.
-4. 👗 **Sartorial & Material Palette**: Dress code ethos, tactile fabrics (washed linen, raw indigo, undyed cashmere).
-5. 📍 **Spatial Architecture**: Interior atmosphere, furniture joinery, and architectural light dispersion.
-6. 🕯️ **Sensory Nuance Engine**:
-   - **Luminescence (Kelvin)**: Specific light temperature (e.g., 2200K candlelight vs. 2700K halogen).
-   - **Olfactory Profile**: Botanical and natural scent notes (hinoki, smoked vetiver, dried bergamot).
-   - **Tactile Palette**: Surface textures (unglazed stoneware, brushed brass).
-   - **Conversation Anchors**: Qloo-correlated dialogue and intellectual prompts.
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│                        THE VIBE IDENTITY                               │
+│        Title, Editorial Subtitle, Poetic Atmosphere Narrative          │
+└──────────────────────────────────┬─────────────────────────────────────┘
+                                   │
+         ┌─────────────────────────┼─────────────────────────┐
+         ▼                         ▼                         ▼
+  PILLAR 01: THE SCENE      PILLAR 02: THE RITUAL     PILLAR 03: THE AESTHETIC
+ (Space, Light & Scent)    (Soundscape & Libation)   (Visual Mood & Attire)
+```
+
+1. 🏛️ **Pillar 01 • The Scene (Space, Light & Scent)**:
+   - **Physical Space & Joinery**: Architectural atmosphere, materials, and spatial layout.
+   - **Luminescence & Shadows**: Exact Kelvin values (e.g., 2200K amber gas-lamp warmth vs. 2700K halogen) and lighting dispersion.
+   - **Olfactory Signature**: Botanical, woodsmoke, and natural scent profiles.
+   - **Tactile Palette**: Surface textures (fluted walnut, unglazed stoneware, brushed brass).
+   - **Atmospheric Touchstones**: High-affinity venue and architectural benchmarks from Qloo.
+
+2. 🎧 **Pillar 02 • The Ritual (Sound & Libation)**:
+   - **On The Turntable / Soundscape**: Musical theme, acoustic pacing, and BPM tempo.
+   - **Acoustic Selections**: Curated vinyl records and artists.
+   - **In The Glass & Libation Pairing**: Exact cellar pours, craft beers, natural wines, or artisanal teas.
+   - **At The Table**: Gastronomic culinary concept and small plate pairings.
+
+3. 🎬 **Pillar 03 • The Aesthetic (Visual Mood & Attire)**:
+   - **Visual Moodboard & Color Theory**: Framing motifs, color palettes, and cinematographic aesthetic references.
+   - **What To Wear (Attire Ethos)**: Practical dress code tailored to the room's atmosphere.
+   - **Recommended Textiles**: Curated fabric swatches (washed linen, raw indigo, undyed cashmere, waxed cotton).
+   - **Sartorial Correlates**: Brand and styling touchstones.
+
+4. 🗣️ **The Social Spark: Curated Conversation Anchors**:
+   - 3 thought-provoking, taste-graph correlated dialogue prompts naturally tailored to the gathering.
+
+5. 🧬 **Interactive Dual-Mode Toggle: Qloo Taste Graph (5D Engine)**:
+   - **Default View**: Sleek, immersive **Experiential Dossier**.
+   - **One-Click Inspector**: Switch to **`🧬 Qloo Taste Graph (5D Engine)`** to inspect raw cross-domain affinity scores, category mappings, and entity tags for hackathon judges and curators.
 
 ---
 

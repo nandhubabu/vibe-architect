@@ -46,11 +46,45 @@ function buildVenueSpecificDefaults(
       lowerPrompt.includes('speakeasy') ||
       lowerPrompt.includes('whisky'));
 
+  const isCabin =
+    lowerPrompt.includes('cabin') ||
+    lowerPrompt.includes('retreat') ||
+    lowerPrompt.includes('nordic') ||
+    lowerPrompt.includes('hearth');
+
   const isCafe =
-    lowerPrompt.includes('cafe') ||
-    lowerPrompt.includes('coffee') ||
-    lowerPrompt.includes('tea') ||
-    lowerPrompt.includes('bakery');
+    !isCabin &&
+    (lowerPrompt.includes('cafe') ||
+      lowerPrompt.includes('coffee') ||
+      lowerPrompt.includes('tea') ||
+      lowerPrompt.includes('bakery'));
+
+  if (isCabin) {
+    return {
+      title: 'Atmosphere: Sub-Zero Hearth & Ambient Solitude',
+      subtitle: 'A secluded Nordic cabin sanctuary pairing generative soundscapes with hearth fire and foraged botanicals',
+      narrative: `Carved into the quiet wilderness, this Nordic retreat pairs generative ambient soundscapes with the crackle of birch firewood. Coarse shearling and raw timber frame slow contemplation, while foraged herbal brews and Scandinavian stoneware ground the senses against the elements.`,
+      soundtrackTheme: 'Generative Ambient Drift & Sub-Bass Soundscapes',
+      soundtrackTempo: '48–56 BPM meditative drone and acoustic breathing room',
+      gastronomyConcept: 'New Nordic Foraged Botanicals & Woodfire Hearth Fare',
+      wineOrCocktailPairing: 'Foraged pine needle and chaga mushroom decoction with raw heather honey, or smoky aquavit over carved ice',
+      cinemaAesthetic: 'Nordic Monolithic Realism & Austere Natural Daylight',
+      cinemaMotif: 'Snow drifting past triple-pane timber glass, woodsmoke silhouettes against granite boulders and dark pines',
+      sartorialDress: 'Undyed Heavyweight Wool & Raw Shearling',
+      sartorialMaterials: ['Heavy boiled wool', 'Icelandic shearling', 'Waxed canvas', 'Undyed alpaca knitwear'],
+      spaceAtmosphere: 'Rough-Hewn Pine Timber, Soapstone Hearth & Cast-Iron Stoves',
+      ambientLighting: '2000K – 2200K living woodfire glow; zero cold artificial illumination',
+      lightingKelvin: '2000K – 2200K (Hearth Ember Glow)',
+      lightingDesc: 'Flickering woodfire embers in a central soapstone hearth casting long, contemplative amber shadows across rough-sawn pine.',
+      aroma: 'Smoked birch logs, dried pine needles, sweetgrass, and mountain stone.',
+      textureMaterials: ['Rough-sawn Scandinavian pine', 'Honed soapstone hearth', 'Natural sheepskin fleece', 'Cast iron hardware'],
+      anchors: [
+        'How continuous ambient soundscapes transform our perception of wilderness and domestic isolation',
+        'The tactile psychology of rough-hewn natural timber versus machine-polished surfaces',
+        'Ancient northern rituals of foraged winter botanicals and cold-climate fireside gathering',
+      ],
+    };
+  }
 
   if (isPub) {
     return {

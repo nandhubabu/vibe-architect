@@ -303,8 +303,6 @@ export default function HomePage() {
 
         <BlueprintCanvas blueprint={blueprint} />
 
-        <SensoryDetailsGrid sensory={blueprint.sensory} />
-
         <RemixPanel onRemix={handleRemix} onShare={handleShare} isRemixing={isLoading} />
       </main>
 
