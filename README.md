@@ -16,7 +16,7 @@
   <b>Vibe Architect</b> bridges that gap: translating human moments, spaces, and gatherings into culturally grounded, multi-sensory blueprints spanning music, gastronomy, cinema, fashion, and spatial aesthetics.
 </p>
 
-[Live Demo](#-live-demo--deployment) • [Why Qloo?](#-the-core-differentiator-why-qloo-makes-it-possible) • [Agent Architecture](#-agent-architecture--reasoning-loop) • [Design Philosophy](#-editorial-design-philosophy) • [Getting Started](#-getting-started)
+[Live Demo](#-live-demo--deployment) • [Why Qloo?](#-the-core-differentiator-why-qloo-makes-it-possible) • [5-Node Taste Tree Memory](#-persistent-5-node-user-taste-memory-tree) • [Browser Search Ingestion](#-browser-search--taste-history-ingestion) • [Agent Architecture](#-agent-architecture--reasoning-loop) • [Strict List Capping](#-strict-list-capping--curatorial-balance) • [Getting Started](#-getting-started)
 
 ---
 
@@ -25,14 +25,17 @@
 ## 📖 Table of Contents
 1. [The Problem: Why Generic LLMs Fail at Culture](#-the-problem-why-generic-llms-fail-at-culture)
 2. [The Core Differentiator: Why Qloo Makes It Possible](#-the-core-differentiator-why-qloo-makes-it-possible)
-3. [Agent Architecture & Reasoning Loop](#-agent-architecture--reasoning-loop)
-4. [The 6-Dimensional Cultural Blueprint](#-the-6-dimensional-cultural-blueprint)
-5. [Editorial Design Philosophy](#-editorial-design-philosophy)
-6. [Real-World Lateral Use Cases](#-real-world-lateral-use-cases)
-7. [API & Engineering Architecture](#-api--engineering-architecture)
-8. [Getting Started & Local Setup](#-getting-started)
-9. [Hackathon Submission Verification](#-hackathon-submission-verification)
-10. [License](#-license)
+3. [Persistent 5-Node User Taste Memory Tree](#-persistent-5-node-user-taste-memory-tree)
+4. [Browser Search & Taste History Ingestion](#-browser-search--taste-history-ingestion)
+5. [Strict List Capping & Curatorial Balance (Top 3–5)](#-strict-list-capping--curatorial-balance)
+6. [Agent Architecture & Reasoning Loop](#-agent-architecture--reasoning-loop)
+7. [The 6-Dimensional Cultural Blueprint](#-the-6-dimensional-cultural-blueprint)
+8. [Editorial Design Philosophy](#-editorial-design-philosophy)
+9. [Real-World Lateral Use Cases](#-real-world-lateral-use-cases)
+10. [API & Engineering Architecture](#-api--engineering-architecture)
+11. [Getting Started & Local Setup](#-getting-started)
+12. [Hackathon Submission Verification](#-hackathon-submission-verification)
+13. [License](#-license)
 
 ---
 
@@ -91,24 +94,129 @@ Standard Large Language Models (LLMs) are trained on massive token distributions
 
 ---
 
+## 🌳 Persistent 5-Node User Taste Memory Tree
+
+> **The Problem**: Traditional AI interfaces treat users as ephemeral, anonymous prompters. They analyze a single prompt text in isolation, with zero enduring knowledge of who the user is, what aesthetics they treasure, or what sensory priorities they hold.
+
+**Vibe Architect** solves this by establishing an enduring **5-Node Cultural Knowledge Tree** that persists in the user's browser across sessions and prompts:
+
+```
+                          ┌─────────────────────────────┐
+                          │   USER TASTE MEMORY TREE    │
+                          │   (Persistent Local Graph)  │
+                          └──────────────┬──────────────┘
+                                         │
+        ┌────────────────┬───────────────┼───────────────┬────────────────┐
+        ▼                ▼               ▼               ▼                ▼
+   ┌─────────┐      ┌─────────┐     ┌─────────┐     ┌─────────┐      ┌─────────┐
+   │ 🎵 MUSIC │      │ 🎬 FILM │     │ 🍷 DINE │     │ ✂️ STYLE│      │ 🏛️ SPACE│
+   │ Priority│      │ Priority│     │ Priority│     │ Priority│      │ Priority│
+   │  1x–5x  │      │  1x–5x  │     │  1x–5x  │     │  1x–5x  │      │  1x–5x  │
+   └─────────┘      └─────────┘     └─────────┘     └─────────┘      └─────────┘
+   Acoustic         Cinematic       Gastronomy &    Sartorial &      Spatial &
+   Architecture     Tone & 35mm     Libations       Tactile Fibers   Ambiance
+```
+
+### The 5 Cultural Nodes
+
+| Node | Domain | Default Weight | Role in Synthesis & Qloo Discovery |
+|---|---|---|---|
+| **01 🎵 Acoustic Architecture** | Music & Soundscapes | **5x (Dominant)** | Anchors BPM tempos, analog vinyl instrumentation, and harmonic voicings (e.g. *Bill Evans, Alice Coltrane, Brian Eno*). |
+| **02 🎬 Visual & Cinematic Tone** | Cinema & Visuals | **4x (High)** | Guides lighting contrast, 35mm grain, and director aesthetics (e.g. *Wong Kar-wai, Denis Villeneuve, Studio Ghibli*). |
+| **03 🍷 Gastronomy & Libations** | Dining & Drink | **4x (High)** | Directs low-intervention viniculture, craft fermentations, and culinary pairings (e.g. *Georgian amber wines, Spanish conservas*). |
+| **04 ✂️ Sartorial & Tactile Palette** | Fashion & Textiles | **3x (Balanced)** | Informs relaxed silhouettes, tactile natural fibers, and drape (e.g. *Washed Belgian linen, Studio Nicholson, Margaret Howell*). |
+| **05 🏛️ Spatial Architecture & Ambiance** | Interior Design | **5x (Dominant)** | Controls precise Kelvin color temperatures, botanical olfactory profiles, and material joinery (e.g. *2400K incandescent, Hinoki cypress*). |
+
+### Interactive Priority Meters (1x to 5x)
+- Every node has an interactive priority slider in the **Taste Tree Drawer**.
+- Adjusting a node from `1x (Minimal)` to `5x (Dominant)` increases that cultural domain's gravity in the agent's reasoning loop and prompts the Qloo resolver to favor that domain's correlate entities.
+
+### Continuous Auto-Learning
+- When **Auto-Learn** is enabled, every synthesized blueprint is automatically analyzed for high-affinity cultural correlates.
+- Discovered entities are absorbed into the corresponding node with a `[LEARNED]` tag, expanding your personal cultural profile over time while preventing duplicate entries.
+
+---
+
+## 🔍 Browser Search & Taste History Ingestion
+
+Modern browsers sandbox client web applications for user privacy, preventing scripts from reading private Chrome search history. Vibe Architect introduces a **Browser Search & Cultural History Ingestion Engine** that gives users the exact same personalized benefit transparently:
+
+1. **Direct Query Ingestion**: Users can paste recent browser searches, discovered artists, or bookmarked places (e.g., `"amber skin-contact wine bars, listened to Alice Coltrane vinyl, watched Past Lives 35mm lighting, brutalist walnut joinery"`).
+2. **Heuristic Cultural Classification**: The ingestion engine analyzes textual signals and assigns each term to the appropriate node (Music, Cinema, Dining, Fashion, Atmosphere) with an automatic priority weight.
+3. **✨ Simulate Browser History Sync**: Includes a one-click simulation button that populates realistic cultural search queries to immediately show how external browser signals tune the 5-node tree.
+
+---
+
+## ⚖️ Strict List Capping & Curatorial Balance
+
+> **The Problem**: Unbounded AI outputs often overwhelm users with bloated 10–20 item lists, or produce jarringly uneven lists where one category has 15 items and another has 1.
+
+Vibe Architect enforces strict, balanced **Curatorial Capping** across the entire UI and API pipeline:
+
+* **Top 3 Curated by Default**: Every domain card displays strictly the top 3 highest-affinity cultural correlates.
+* **Top 5 Maximum Cap**: When correlates exceed 3 items, an interactive toggle button appears:
+  - Collapsed: `+ Show Top 5 Correlates (5 Total)`
+  - Expanded: `▲ Show Top 3 Curated`
+  - Lists **never exceed 5 items**, preserving editorial elegance.
+* **Sensory Capping**:
+  - Tactile material surfaces: strictly capped at **4 materials**.
+  - Sartorial palette fabrics: strictly capped at **4 materials**.
+  - Curated conversation anchors: strictly capped at **3 thought-provoking prompts**.
+* **Upstream Qloo Guardrails**: The Qloo Insights tool sets `sample_size=5` and slices all incoming candidate pools to ensure efficient bandwidth and zero list overflow.
+
+---
+
 ## 🤖 Agent Architecture & Reasoning Loop
 
-Vibe Architect executes a strict **multi-stage autonomous reasoning pipeline**:
+Vibe Architect executes a **6-stage autonomous reasoning pipeline** that harmonizes user taste memory with natural language prompts:
 
-### Stage 1: Intent Deconstruction
-- Parses unstructured natural language prompt into aesthetic keywords, occasion intent, and social context (intimate tête-à-tête vs. lively salon vs. creative collective).
-
-### Stage 2: Qloo Entity Disambiguation (`/v1/search`)
-- Identifies and verifies anchor entities against Qloo's cultural database across music, film, gastronomy, and fashion categories.
-
-### Stage 3: Cross-Domain Taste Traversal (`/v1/insights`)
-- Traverses Qloo's affinity graph to extract high-affinity complementary entities across 5 distinct domains.
-
-### Stage 4: Cultural Coherence Calculation
-- Evaluates statistical alignment across all selected entities to compute a **Coherence Score (0–100%)** and identify the **Cultural Archetype** (e.g. *The Contemplative Connoisseur*, *The Nocturnal Flâneur*).
-
-### Stage 5: Blueprint Synthesis & Tactile Details
-- Integrates Google Gemini 2.5 Flash to weave verified Qloo entities with sensory nuances: lighting Kelvin ratings, olfactory notes, and curated conversation anchors.
+```
+┌────────────────────────────────────────────────────────────────────────┐
+│                        HUMAN MOMENT PROMPT                             │
+│     "A candlelit vinyl listening salon with Miles Davis & wine"        │
+└──────────────────────────────────┬─────────────────────────────────────┘
+                                   │
+                                   ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│ STAGE 1: TASTE MEMORY GROUNDING                                        │
+│ Blends 5-Node Taste Tree priorities (Music: 5x, Space: 5x, etc.)       │
+└──────────────────────────────────┬─────────────────────────────────────┘
+                                   │
+                                   ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│ STAGE 2: INTENT DECONSTRUCTION                                         │
+│ Parses aesthetic vocabulary, spatial intent, and social context        │
+└──────────────────────────────────┬─────────────────────────────────────┘
+                                   │
+                                   ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│ STAGE 3: QLOO ENTITY DISAMBIGUATION (/search)                          │
+│ Resolves prompt + priority anchors against Qloo 250M+ entity graph     │
+└──────────────────────────────────┬─────────────────────────────────────┘
+                                   │
+                                   ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│ STAGE 4: CROSS-DOMAIN TASTE TRAVERSAL (/v2/insights)                   │
+│ Traverses Qloo affinity graph with strict sample_size=5 list capping   │
+└──────────────────────────────────┬─────────────────────────────────────┘
+                                   │
+                                   ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│ STAGE 5: CULTURAL COHERENCE VERIFICATION                               │
+│ Computes multi-domain coherence score (0–100%) and Cultural Archetype  │
+└──────────────────────────────────┬─────────────────────────────────────┘
+                                   │
+                                   ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│ STAGE 6: BLUEPRINT EDITORIAL SYNTHESIS & SENSORY NUANCE                │
+│ Gemini 3.8 Flash personalizes narrative, Kelvin lighting, & pairings  │
+└──────────────────────────────────┬─────────────────────────────────────┘
+                                   │
+                                   ▼
+┌────────────────────────────────────────────────────────────────────────┐
+│ AUTO-LEARNING LOOP: Absorbs high-affinity correlates into Taste Tree   │
+└────────────────────────────────────────────────────────────────────────┘
+```
 
 ---
 
@@ -157,8 +265,9 @@ Vibe Architect is built for real-world creative, hospitality, and spatial indust
 - **Framework**: [Next.js 16](https://nextjs.org/) (App Router, Turbopack, React 19)
 - **Language**: TypeScript 5+ (Strict typing across all entities)
 - **Styling**: Vanilla CSS Modules (Design-token driven, zero external CSS dependencies)
-- **Cultural Intelligence**: Qloo Hackathon Taste Graph API (`https://hackathon.api.qloo.com`)
-- **Agent Intelligence**: Google Gemini 2.5 Flash via `@google/genai` SDK
+- **Cultural Intelligence**: Qloo Hackathon Taste Graph API (`https://hackathon.api.qloo.com/v2/insights` & `/search`)
+- **Agent Intelligence**: Google Gemini 3.8 Flash (`gemini-3.8-flash`) via official `@google/genai` SDK
+- **Taste Memory Engine**: Client-side 5-Node Knowledge Tree with `localStorage` persistence, priority weighting, and browser search signal ingestion
 - **Hosting & Deployment**: Vercel (Production-optimized)
 
 ### API Endpoints
@@ -166,7 +275,7 @@ Vibe Architect is built for real-world creative, hospitality, and spatial indust
 | Endpoint | Method | Description |
 |---|---|---|
 | `/api/qloo/status` | `GET` | Health check and diagnostics for Qloo API connectivity and graph entity state |
-| `/api/agent/generate` | `POST` | Executes the autonomous agent loop: deconstructs prompt, queries Qloo, and returns blueprint |
+| `/api/agent/generate` | `POST` | Executes the autonomous agent loop: grounds in 5-Node Taste Tree, deconstructs prompt, queries Qloo v2, and returns blueprint |
 
 ---
 
