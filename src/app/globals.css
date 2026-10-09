@@ -4,6 +4,7 @@
 :root {
   /* Warm editorial earth palette */
   --bg-primary: #F9F6F0;
+  --bg-paper: #F9F6F0;
   --bg-surface: #FFFFFF;
   --bg-subtle: #F3EFE7;
   --bg-terracotta-soft: #F5EAE5;
@@ -17,6 +18,7 @@
   --accent-terracotta: #C36B4E;
   --accent-terracotta-hover: #A8573D;
   --accent-sage: #6B7F67;
+  --accent-olive: #5A6B4E;
   --accent-ochre: #C49A45;
   --accent-slate: #444E57;
 

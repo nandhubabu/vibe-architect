@@ -163,11 +163,45 @@ export async function getQlooInsights(
           'cheesecake factory',
         ];
 
+        const GROOMING_OR_SPAM_TERMS = [
+          'nail',
+          'manicure',
+          'pedicure',
+          'hair salon',
+          'hair dresser',
+          'hair studio',
+          'barber',
+          'eyelash',
+          'waxing',
+          'tanning',
+          'massage parlor',
+          'beauty salon',
+          'bridal',
+          'tattoo',
+          '美甲',
+          '美睫',
+          '美髮',
+          '髮廊',
+          '沙龍nail',
+        ];
+
+        const hasCjkSeed = sourceEntities.some((s) => /[\u4e00-\u9fa5]/.test(s.name));
+
         const filteredRaw = rawEntities.filter((item) => {
           const nameLower = (item.name || item.title || '').toLowerCase();
-          return !INCOMPATIBLE_COMMERCIAL_CHAINS.some((chain) =>
-            nameLower.includes(chain)
-          );
+          // Exclude chain restaurants
+          if (INCOMPATIBLE_COMMERCIAL_CHAINS.some((chain) => nameLower.includes(chain))) {
+            return false;
+          }
+          // Exclude commercial grooming/beauty services
+          if (GROOMING_OR_SPAM_TERMS.some((term) => nameLower.includes(term))) {
+            return false;
+          }
+          // Exclude raw CJK entities unless user seeds contain CJK
+          if (!hasCjkSeed && /[\u4e00-\u9fa5]/.test(item.name || item.title || '')) {
+            return false;
+          }
+          return true;
         });
 
         if (filteredRaw.length > 0) {

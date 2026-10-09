@@ -123,7 +123,50 @@ export async function searchQlooEntities(
 
       const items = response.results || response.data || response.entities || [];
       if (items.length > 0) {
-        return items.map((item, idx) => {
+        const containsCjk = /[\u4e00-\u9fa5]/;
+        const queryHasCjk = containsCjk.test(trimmed);
+
+        const GROOMING_OR_SPAM_TERMS = [
+          'nail',
+          'manicure',
+          'pedicure',
+          'hair salon',
+          'hair dresser',
+          'hair studio',
+          'barber',
+          'eyelash',
+          'waxing',
+          'tanning',
+          'massage parlor',
+          'beauty salon',
+          'bridal',
+          'tattoo',
+          '美甲',
+          '美睫',
+          '美髮',
+          '髮廊',
+          '沙龍nail',
+        ];
+
+        const validItems = items.filter((item) => {
+          const rawName = (item.name || item.title || '').toLowerCase();
+          // Filter grooming and commercial beauty businesses
+          if (GROOMING_OR_SPAM_TERMS.some((term) => rawName.includes(term))) {
+            return false;
+          }
+          // Filter raw CJK names if query was in Latin/English
+          if (!queryHasCjk && containsCjk.test(item.name || item.title || '')) {
+            return false;
+          }
+          return true;
+        });
+
+        const activeList = validItems.length > 0 ? validItems : items.filter((item) => {
+          const rawName = (item.name || item.title || '').toLowerCase();
+          return !GROOMING_OR_SPAM_TERMS.some((term) => rawName.includes(term));
+        });
+
+        return activeList.map((item, idx) => {
           const entityId =
             item.entity_id ||
             item.id ||

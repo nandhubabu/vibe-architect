@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import styles from './BlueprintCanvas.module.css';
 import { CulturalBlueprint, QlooEntity } from '@/types/qloo';
-import { downloadBlueprintMarkdown } from '@/lib/export/dossier-export';
+import { downloadBlueprintPDF } from '@/lib/export/dossier-export';
 import { startRoomTexture, RoomTextureController } from '@/lib/audio/room-texture';
 
 interface BlueprintCanvasProps {
@@ -146,7 +146,7 @@ export function BlueprintCanvas({ blueprint }: BlueprintCanvasProps) {
   };
 
   const handleDownloadSpec = () => {
-    downloadBlueprintMarkdown(blueprint);
+    downloadBlueprintPDF(blueprint);
   };
 
   return (
@@ -206,9 +206,9 @@ export function BlueprintCanvas({ blueprint }: BlueprintCanvasProps) {
             type="button"
             className={`${styles.canvasActionBtn} ${styles.canvasActionBtnPrimary}`}
             onClick={handleDownloadSpec}
-            title="Download complete curatorial specification as Markdown"
+            title="Print or save complete curatorial specification as PDF"
           >
-            📄 Export Spec (.md)
+            📄 Export Spec (.PDF)
           </button>
         </div>
       </div>

@@ -83,6 +83,9 @@ const FAMOUS_CULTURAL_ANCHORS = [
   'japandi',
   'brutalist',
   'mid-century',
+  'architecture',
+  'modernist architecture',
+  'bauhaus',
 ];
 
 /**
@@ -133,27 +136,42 @@ export async function parseAndResolveCulturalSeeds(
   // 4. Construct Primary Search Queries
   const primarySearchQueries: string[] = [];
 
-  // If a specific venue is requested, make it the FIRST search target
-  if (detectedVenueType) {
-    if (detectedVibes.length > 0) {
-      primarySearchQueries.push(`${detectedVibes[0]} ${cleanedPrompt}`);
-      primarySearchQueries.push(`${detectedVibes[0]} pub`);
-    } else {
-      primarySearchQueries.push(cleanedPrompt);
-    }
-    // Also include the raw cleaned prompt
-    if (!primarySearchQueries.includes(cleanedPrompt)) {
-      primarySearchQueries.push(cleanedPrompt);
-    }
-  } else if (cleanedPrompt.length > 2 && !matchedTokens.includes(cleanedPrompt)) {
-    // General aesthetic request
-    primarySearchQueries.push(cleanedPrompt);
-  }
-
-  // Add explicit artist tokens
+  // A. Explicit cultural anchors (artists, directors, movements) MUST COME FIRST!
   for (const token of matchedTokens) {
     if (!primarySearchQueries.includes(token)) {
       primarySearchQueries.push(token);
+    }
+  }
+
+  // B. Clean venue or spatial concept
+  if (detectedVenueType) {
+    const venueKey =
+      Object.keys(VENUE_KEYWORDS).find((k) =>
+        new RegExp(`\\b${k}\\b`, 'i').test(cleanedPrompt)
+      ) || 'space';
+
+    // Disambiguate venue keywords so Qloo doesn't search for commercial nail/hair salons or chain spots
+    const refinedVenueTerm =
+      venueKey === 'salon'
+        ? 'cultural listening salon'
+        : venueKey === 'studio'
+        ? 'creative design studio'
+        : venueKey === 'rooftop'
+        ? 'rooftop terrace'
+        : venueKey;
+
+    const venueQuery = detectedVibes.length > 0 ? `${detectedVibes[0]} ${refinedVenueTerm}` : refinedVenueTerm;
+    if (!primarySearchQueries.includes(venueQuery)) {
+      primarySearchQueries.push(venueQuery);
+    }
+  }
+
+  // C. If no explicit cultural anchors matched, add short aesthetic keywords (not long stopword sentences)
+  if (primarySearchQueries.length === 0) {
+    const words = cleanedPrompt.split(/\s+/).filter((w) => w.length > 3);
+    const shortQuery = words.slice(0, 3).join(' ');
+    if (shortQuery) {
+      primarySearchQueries.push(shortQuery);
     }
   }
 

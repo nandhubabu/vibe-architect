@@ -16,7 +16,7 @@ import {
   loadUserTasteTree,
   learnFromBlueprint,
 } from '@/lib/taste-tree/memory';
-import { downloadBlueprintMarkdown } from '@/lib/export/dossier-export';
+import { downloadBlueprintPDF } from '@/lib/export/dossier-export';
 import { QlooStatusModal } from '@/components/QlooStatusModal';
 
 const DEFAULT_INITIAL_BLUEPRINT: CulturalBlueprint = {
@@ -278,7 +278,7 @@ export default function HomePage() {
 
   const handleExportMarkdown = () => {
     if (blueprint) {
-      downloadBlueprintMarkdown(blueprint);
+      downloadBlueprintPDF(blueprint);
     }
   };
 

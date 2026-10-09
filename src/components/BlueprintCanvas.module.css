@@ -129,7 +129,7 @@
 
 .tabBtnActive {
   background: var(--ink-primary);
-  color: var(--bg-paper);
+  color: #FFFFFF !important;
   font-weight: 600;
 }
 
@@ -169,14 +169,15 @@
 }
 
 .canvasActionBtnPrimary {
-  background: var(--accent-olive);
-  border: 1px solid var(--accent-olive);
-  color: #ffffff;
+  background: var(--accent-terracotta);
+  border: 1px solid var(--accent-terracotta);
+  color: #FFFFFF !important;
 }
 
 .canvasActionBtnPrimary:hover {
-  background: #3f4738;
-  color: #ffffff;
+  background: var(--accent-terracotta-hover);
+  border-color: var(--accent-terracotta-hover);
+  color: #FFFFFF !important;
 }
 
 /* ==========================================================

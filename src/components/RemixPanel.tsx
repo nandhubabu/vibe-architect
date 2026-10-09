@@ -95,9 +95,9 @@ export function RemixPanel({ onRemix, onShare, onExportMarkdown, isRemixing }: R
               type="button"
               onClick={onExportMarkdown}
               className={styles.exportBtn}
-              title="Download full curatorial spec sheet as Markdown"
+              title="Print or save full curatorial spec sheet as PDF"
             >
-              📄 Download Spec Sheet (.md)
+              📄 Download Spec Sheet (.PDF)
             </button>
           )}
           <button type="button" onClick={handleShareClick} className={styles.shareBtn}>
