@@ -1,0 +1,212 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(26, 26, 24, 0.65);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.modal {
+  background: var(--bg-paper);
+  border: var(--border-crisp);
+  border-radius: var(--radius-minimal);
+  width: 100%;
+  max-width: 680px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.24);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: relative;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: var(--border-hairline);
+  padding-bottom: 18px;
+}
+
+.tagline {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: var(--accent-terracotta);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.title {
+  font-family: var(--font-serif-display);
+  font-size: 1.6rem;
+  color: var(--ink-primary);
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.closeBtn {
+  background: transparent;
+  border: var(--border-hairline);
+  border-radius: var(--radius-minimal);
+  padding: 6px 12px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--ink-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.closeBtn:hover {
+  background: var(--bg-hover);
+  color: var(--ink-primary);
+}
+
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.metricCard {
+  background: var(--bg-surface);
+  border: var(--border-crisp);
+  border-radius: var(--radius-minimal);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.metricLabel {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--ink-tertiary);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.metricValue {
+  font-family: var(--font-mono);
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--ink-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.statusDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--accent-sage);
+  display: inline-block;
+  box-shadow: 0 0 8px rgba(124, 137, 102, 0.4);
+}
+
+.statusDotError {
+  background-color: #d9534f;
+  box-shadow: 0 0 8px rgba(217, 83, 79, 0.4);
+}
+
+.diagnosticBlock {
+  background: var(--bg-surface);
+  border: var(--border-crisp);
+  border-radius: var(--radius-minimal);
+  padding: 20px;
+}
+
+.blockTitle {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-primary);
+  margin-bottom: 12px;
+  display: block;
+}
+
+.codeBox {
+  background: #141413;
+  color: #d1cdc7;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  line-height: 1.6;
+  padding: 14px;
+  border-radius: var(--radius-minimal);
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.categoryPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.categoryPill {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  background: var(--bg-hover);
+  border: var(--border-hairline);
+  color: var(--ink-primary);
+  padding: 4px 10px;
+  border-radius: var(--radius-minimal);
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: var(--border-hairline);
+  padding-top: 16px;
+}
+
+.pingBtn {
+  background: var(--ink-primary);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-minimal);
+  padding: 10px 18px;
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pingBtn:hover {
+  background: var(--accent-terracotta);
+}
+
+.docsLink {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--ink-secondary);
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.docsLink:hover {
+  color: var(--accent-terracotta);
+}
+
+@media (max-width: 640px) {
+  .metricsGrid {
+    grid-template-columns: 1fr;
+  }
+}

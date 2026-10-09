@@ -150,6 +150,14 @@ export async function searchQlooEntities(
             ])
           );
 
+          const desc =
+            item.description ||
+            item.disambiguation ||
+            item.properties?.description ||
+            item.properties?.biography ||
+            (item.properties?.short_descriptions && item.properties.short_descriptions[0]?.value) ||
+            `Curated ${category} entity resolved from Qloo graph.`;
+
           return {
             id: entityId,
             name: entityName,

@@ -1,11 +1,30 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './BlueprintCanvas.module.css';
 import { CulturalBlueprint, QlooEntity } from '@/types/qloo';
+import { downloadBlueprintMarkdown } from '@/lib/export/dossier-export';
+import { startRoomTexture, RoomTextureController } from '@/lib/audio/room-texture';
 
 interface BlueprintCanvasProps {
   blueprint: CulturalBlueprint;
+}
+
+function getOutboundUrl(name: string, category?: string): { label: string; url: string } | null {
+  const cat = (category || '').toLowerCase();
+  if (cat.includes('music') || cat.includes('soundtrack') || cat.includes('artist') || cat.includes('track') || cat.includes('album')) {
+    return { label: 'Spotify ↗', url: `https://open.spotify.com/search/${encodeURIComponent(name)}` };
+  }
+  if (cat.includes('film') || cat.includes('movie') || cat.includes('cinema') || cat.includes('director')) {
+    return { label: 'Letterboxd ↗', url: `https://letterboxd.com/search/${encodeURIComponent(name)}` };
+  }
+  if (cat.includes('dining') || cat.includes('food') || cat.includes('bar') || cat.includes('pub') || cat.includes('gastronomy') || cat.includes('restaurant')) {
+    return { label: 'Explore ↗', url: `https://www.google.com/search?q=${encodeURIComponent(name + ' culinary restaurant bar')}` };
+  }
+  if (cat.includes('fashion') || cat.includes('sartorial') || cat.includes('apparel')) {
+    return { label: 'Lookbook ↗', url: `https://www.google.com/search?q=${encodeURIComponent(name + ' brand fashion lookbook')}` };
+  }
+  return { label: 'Explore ↗', url: `https://www.google.com/search?q=${encodeURIComponent(name)}` };
 }
 
 function EntityListSection({ entities }: { entities: QlooEntity[] }) {
@@ -17,17 +36,33 @@ function EntityListSection({ entities }: { entities: QlooEntity[] }) {
   return (
     <div>
       <div className={styles.entityList}>
-        {visible.map((ent, idx) => (
-          <div key={idx} className={styles.entityItem}>
-            <div className={styles.entityHeader}>
-              <span className={styles.entityName}>{ent.name}</span>
-              <span className={styles.entityAffinity}>
-                {Math.round((ent.affinityScore || 0.9) * 100)}% AFFINITY
-              </span>
+        {visible.map((ent, idx) => {
+          const outbound = getOutboundUrl(ent.name, ent.category);
+          return (
+            <div key={idx} className={styles.entityItem}>
+              <div className={styles.entityHeader}>
+                <span className={styles.entityName}>
+                  {ent.name}
+                  {outbound && (
+                    <a
+                      href={outbound.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={styles.outboundLink}
+                      title={`Search ${ent.name} on ${outbound.label.replace(' ↗', '')}`}
+                    >
+                      {outbound.label}
+                    </a>
+                  )}
+                </span>
+                <span className={styles.entityAffinity}>
+                  {Math.round((ent.affinityScore || 0.9) * 100)}% AFFINITY
+                </span>
+              </div>
+              {ent.description && <p className={styles.entityDesc}>{ent.description}</p>}
             </div>
-            {ent.description && <p className={styles.entityDesc}>{ent.description}</p>}
-          </div>
-        ))}
+          );
+        })}
       </div>
       {hasMore && (
         <button
@@ -46,7 +81,73 @@ function EntityListSection({ entities }: { entities: QlooEntity[] }) {
 
 export function BlueprintCanvas({ blueprint }: BlueprintCanvasProps) {
   const [viewMode, setViewMode] = useState<'dossier' | 'technical'>('dossier');
+  const [linkCopied, setLinkCopied] = useState(false);
+  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const [audioVibeName, setAudioVibeName] = useState<string>('');
+  const audioControllerRef = useRef<RoomTextureController | null>(null);
+
   const { categories, sensory, culturalDNA } = blueprint;
+
+  useEffect(() => {
+    return () => {
+      if (audioControllerRef.current) {
+        audioControllerRef.current.stop();
+        audioControllerRef.current = null;
+      }
+    };
+  }, []);
+
+  // When blueprint changes, stop previous room audio
+  useEffect(() => {
+    if (audioControllerRef.current) {
+      audioControllerRef.current.stop();
+      audioControllerRef.current = null;
+      setIsPlayingAudio(false);
+      setAudioVibeName('');
+    }
+  }, [blueprint.id, blueprint.prompt]);
+
+  const handleToggleRoomTexture = () => {
+    if (isPlayingAudio) {
+      if (audioControllerRef.current) {
+        audioControllerRef.current.stop();
+        audioControllerRef.current = null;
+      }
+      setIsPlayingAudio(false);
+      setAudioVibeName('');
+    } else {
+      try {
+        const themeText = `${blueprint.prompt || ''} ${blueprint.categories?.soundtrack?.theme || ''} ${blueprint.categories?.spaces?.architecturalAtmosphere || ''}`;
+        const ctrl = startRoomTexture(themeText);
+        audioControllerRef.current = ctrl;
+        setIsPlayingAudio(true);
+        setAudioVibeName(ctrl.vibeName);
+      } catch (err) {
+        console.error(err);
+      }
+    }
+  };
+
+  const handleCopyLink = () => {
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      if (blueprint?.prompt) {
+        url.searchParams.set('prompt', blueprint.prompt);
+      }
+      const fullUrl = url.toString();
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(fullUrl).catch(() => {
+          // ignore permission denial in restricted headless environments
+        });
+      }
+      setLinkCopied(true);
+      setTimeout(() => setLinkCopied(false), 2500);
+    }
+  };
+
+  const handleDownloadSpec = () => {
+    downloadBlueprintMarkdown(blueprint);
+  };
 
   return (
     <article className={styles.canvasContainer}>
@@ -91,11 +192,25 @@ export function BlueprintCanvas({ blueprint }: BlueprintCanvasProps) {
             🧬 Qloo Taste Graph (5D Engine)
           </button>
         </div>
-        <span className={styles.viewContextHint}>
-          {viewMode === 'dossier'
-            ? 'Synthesized multi-sensory gathering experience'
-            : 'Raw cross-domain entity affinities across 5 Qloo categories'}
-        </span>
+        
+        <div className={styles.canvasActions}>
+          <button
+            type="button"
+            className={styles.canvasActionBtn}
+            onClick={handleCopyLink}
+            title="Copy deep-link to this synthesized blueprint"
+          >
+            {linkCopied ? '✓ Link Copied' : '🔗 Share Link'}
+          </button>
+          <button
+            type="button"
+            className={`${styles.canvasActionBtn} ${styles.canvasActionBtnPrimary}`}
+            onClick={handleDownloadSpec}
+            title="Download complete curatorial specification as Markdown"
+          >
+            📄 Export Spec (.md)
+          </button>
+        </div>
       </div>
 
       {/* ==========================================================
@@ -153,19 +268,33 @@ export function BlueprintCanvas({ blueprint }: BlueprintCanvasProps) {
                     <div className={styles.sectionBlock}>
                       <span className={styles.blockLabel}>Atmospheric Touchstones</span>
                       <div className={styles.touchstoneList}>
-                        {categories.spaces.entities.slice(0, 2).map((ent, idx) => (
-                          <div key={idx} className={styles.touchstoneItem}>
-                            <span className={styles.touchstoneName}>
-                              {ent.name}
-                              <span className={styles.touchstoneAffinity}>
-                                {Math.round((ent.affinityScore || 0.9) * 100)}% match
+                        {categories.spaces.entities.slice(0, 2).map((ent, idx) => {
+                          const outbound = getOutboundUrl(ent.name, 'space');
+                          return (
+                            <div key={idx} className={styles.touchstoneItem}>
+                              <span className={styles.touchstoneName}>
+                                {ent.name}
+                                {outbound && (
+                                  <a
+                                    href={outbound.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={styles.outboundLink}
+                                    title={`Explore ${ent.name}`}
+                                  >
+                                    {outbound.label}
+                                  </a>
+                                )}
+                                <span className={styles.touchstoneAffinity}>
+                                  {Math.round((ent.affinityScore || 0.9) * 100)}% match
+                                </span>
                               </span>
-                            </span>
-                            {ent.description && (
-                              <p className={styles.touchstoneDesc}>{ent.description}</p>
-                            )}
-                          </div>
-                        ))}
+                              {ent.description && (
+                                <p className={styles.touchstoneDesc}>{ent.description}</p>
+                              )}
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
                   )}
@@ -187,7 +316,7 @@ export function BlueprintCanvas({ blueprint }: BlueprintCanvasProps) {
                 </div>
 
                 <div className={styles.pillarBody}>
-                  {/* On The Turntable */}
+                  {/* On The Turntable & Procedural Texture */}
                   <div className={styles.sectionBlock}>
                     <span className={styles.blockLabel}>On The Turntable / Soundscape</span>
                     <h4 className={styles.blockHeading}>
@@ -196,6 +325,42 @@ export function BlueprintCanvas({ blueprint }: BlueprintCanvasProps) {
                     <p className={styles.blockText}>
                       <strong>Cadence:</strong> {categories.soundtrack.tempo}
                     </p>
+
+                    {/* Procedural Web Audio Room Texture Player */}
+                    <div className={styles.audioPlayerBlock}>
+                      <button
+                        type="button"
+                        className={`${styles.audioPlayBtn} ${isPlayingAudio ? styles.audioPlayBtnActive : ''}`}
+                        onClick={handleToggleRoomTexture}
+                        title="Experience real-time procedural room acoustics"
+                      >
+                        {isPlayingAudio ? (
+                          <>
+                            <span className={styles.audioWaveIndicator}>
+                              <span className={styles.waveBar} />
+                              <span className={styles.waveBar} />
+                              <span className={styles.waveBar} />
+                              <span className={styles.waveBar} />
+                            </span>
+                            <span>Silence Room Texture</span>
+                          </>
+                        ) : (
+                          <>
+                            <span className={styles.audioPlayIcon}>▶</span>
+                            <span>Listen to Room Acoustic Texture</span>
+                          </>
+                        )}
+                      </button>
+                      <div className={styles.audioMetaText}>
+                        {isPlayingAudio ? (
+                          <span className={styles.audioNowPlaying}>
+                            ● Active: {audioVibeName}
+                          </span>
+                        ) : (
+                          <span>Procedural Web Audio ambiance generated from your vibe brief</span>
+                        )}
+                      </div>
+                    </div>
                   </div>
 
                   {/* Featured Music Correlates */}
@@ -203,19 +368,33 @@ export function BlueprintCanvas({ blueprint }: BlueprintCanvasProps) {
                     <div className={styles.sectionBlock}>
                       <span className={styles.blockLabel}>Acoustic Selections</span>
                       <div className={styles.touchstoneList}>
-                        {categories.soundtrack.entities.slice(0, 3).map((m, idx) => (
-                          <div key={idx} className={styles.touchstoneItem}>
-                            <span className={styles.touchstoneName}>
-                              {m.name}
-                              <span className={styles.touchstoneAffinity}>
-                                {Math.round((m.affinityScore || 0.9) * 100)}% match
+                        {categories.soundtrack.entities.slice(0, 3).map((m, idx) => {
+                          const outbound = getOutboundUrl(m.name, 'music');
+                          return (
+                            <div key={idx} className={styles.touchstoneItem}>
+                              <span className={styles.touchstoneName}>
+                                {m.name}
+                                {outbound && (
+                                  <a
+                                    href={outbound.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={styles.outboundLink}
+                                    title={`Search ${m.name} on Spotify`}
+                                  >
+                                    {outbound.label}
+                                  </a>
+                                )}
+                                <span className={styles.touchstoneAffinity}>
+                                  {Math.round((m.affinityScore || 0.9) * 100)}% match
+                                </span>
                               </span>
-                            </span>
-                            {m.description && (
-                              <p className={styles.touchstoneDesc}>{m.description}</p>
-                            )}
-                          </div>
-                        ))}
+                              {m.description && (
+                                <p className={styles.touchstoneDesc}>{m.description}</p>
+                              )}
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
                   )}
@@ -236,19 +415,33 @@ export function BlueprintCanvas({ blueprint }: BlueprintCanvasProps) {
                     <div className={styles.sectionBlock}>
                       <span className={styles.blockLabel}>Table & Cellar Highlights</span>
                       <div className={styles.touchstoneList}>
-                        {categories.gastronomy.entities.slice(0, 2).map((d, idx) => (
-                          <div key={idx} className={styles.touchstoneItem}>
-                            <span className={styles.touchstoneName}>
-                              {d.name}
-                              <span className={styles.touchstoneAffinity}>
-                                {Math.round((d.affinityScore || 0.9) * 100)}% match
+                        {categories.gastronomy.entities.slice(0, 2).map((d, idx) => {
+                          const outbound = getOutboundUrl(d.name, 'dining');
+                          return (
+                            <div key={idx} className={styles.touchstoneItem}>
+                              <span className={styles.touchstoneName}>
+                                {d.name}
+                                {outbound && (
+                                  <a
+                                    href={outbound.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={styles.outboundLink}
+                                    title={`Explore ${d.name}`}
+                                  >
+                                    {outbound.label}
+                                  </a>
+                                )}
+                                <span className={styles.touchstoneAffinity}>
+                                  {Math.round((d.affinityScore || 0.9) * 100)}% match
+                                </span>
                               </span>
-                            </span>
-                            {d.description && (
-                              <p className={styles.touchstoneDesc}>{d.description}</p>
-                            )}
-                          </div>
-                        ))}
+                              {d.description && (
+                                <p className={styles.touchstoneDesc}>{d.description}</p>
+                              )}
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
                   )}
@@ -286,19 +479,33 @@ export function BlueprintCanvas({ blueprint }: BlueprintCanvasProps) {
                     <div className={styles.sectionBlock}>
                       <span className={styles.blockLabel}>Cinematic & Visual References</span>
                       <div className={styles.touchstoneList}>
-                        {categories.cinema.entities.slice(0, 2).map((f, idx) => (
-                          <div key={idx} className={styles.touchstoneItem}>
-                            <span className={styles.touchstoneName}>
-                              {f.name}
-                              <span className={styles.touchstoneAffinity}>
-                                {Math.round((f.affinityScore || 0.9) * 100)}% match
+                        {categories.cinema.entities.slice(0, 2).map((f, idx) => {
+                          const outbound = getOutboundUrl(f.name, 'film');
+                          return (
+                            <div key={idx} className={styles.touchstoneItem}>
+                              <span className={styles.touchstoneName}>
+                                {f.name}
+                                {outbound && (
+                                  <a
+                                    href={outbound.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={styles.outboundLink}
+                                    title={`Search ${f.name} on Letterboxd`}
+                                  >
+                                    {outbound.label}
+                                  </a>
+                                )}
+                                <span className={styles.touchstoneAffinity}>
+                                  {Math.round((f.affinityScore || 0.9) * 100)}% match
+                                </span>
                               </span>
-                            </span>
-                            {f.description && (
-                              <p className={styles.touchstoneDesc}>{f.description}</p>
-                            )}
-                          </div>
-                        ))}
+                              {f.description && (
+                                <p className={styles.touchstoneDesc}>{f.description}</p>
+                              )}
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
                   )}
@@ -328,19 +535,33 @@ export function BlueprintCanvas({ blueprint }: BlueprintCanvasProps) {
                     <div className={styles.sectionBlock}>
                       <span className={styles.blockLabel}>Sartorial Correlates</span>
                       <div className={styles.touchstoneList}>
-                        {categories.sartorial.entities.slice(0, 2).map((s, idx) => (
-                          <div key={idx} className={styles.touchstoneItem}>
-                            <span className={styles.touchstoneName}>
-                              {s.name}
-                              <span className={styles.touchstoneAffinity}>
-                                {Math.round((s.affinityScore || 0.9) * 100)}% match
+                        {categories.sartorial.entities.slice(0, 2).map((s, idx) => {
+                          const outbound = getOutboundUrl(s.name, 'fashion');
+                          return (
+                            <div key={idx} className={styles.touchstoneItem}>
+                              <span className={styles.touchstoneName}>
+                                {s.name}
+                                {outbound && (
+                                  <a
+                                    href={outbound.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className={styles.outboundLink}
+                                    title={`Explore ${s.name}`}
+                                  >
+                                    {outbound.label}
+                                  </a>
+                                )}
+                                <span className={styles.touchstoneAffinity}>
+                                  {Math.round((s.affinityScore || 0.9) * 100)}% match
+                                </span>
                               </span>
-                            </span>
-                            {s.description && (
-                              <p className={styles.touchstoneDesc}>{s.description}</p>
-                            )}
-                          </div>
-                        ))}
+                              {s.description && (
+                                <p className={styles.touchstoneDesc}>{s.description}</p>
+                              )}
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
                   )}

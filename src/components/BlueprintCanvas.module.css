@@ -140,6 +140,45 @@
   letter-spacing: 0.05em;
 }
 
+.canvasActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.canvasActionBtn {
+  background: var(--bg-surface);
+  border: var(--border-crisp);
+  border-radius: var(--radius-minimal);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 7px 14px;
+  color: var(--ink-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.canvasActionBtn:hover {
+  border-color: var(--accent-terracotta);
+  color: var(--accent-terracotta);
+}
+
+.canvasActionBtnPrimary {
+  background: var(--accent-olive);
+  border: 1px solid var(--accent-olive);
+  color: #ffffff;
+}
+
+.canvasActionBtnPrimary:hover {
+  background: #3f4738;
+  color: #ffffff;
+}
+
 /* ==========================================================
    THE 3-PILLAR EXPERIENTIAL DOSSIER
    ========================================================== */
@@ -286,6 +325,109 @@
   color: var(--ink-secondary);
   line-height: 1.45;
   margin-top: 3px;
+}
+
+/* Procedural Audio Player */
+.audioPlayerBlock {
+  background: var(--bg-surface);
+  border: var(--border-crisp);
+  border-left: 3px solid var(--accent-sage);
+  padding: 12px 14px;
+  border-radius: var(--radius-minimal);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.audioPlayBtn {
+  background: var(--ink-primary);
+  color: #ffffff;
+  border: none;
+  border-radius: var(--radius-minimal);
+  padding: 8px 14px;
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  transition: all 0.2s ease;
+}
+
+.audioPlayBtn:hover {
+  background: var(--accent-terracotta);
+}
+
+.audioPlayBtnActive {
+  background: var(--accent-terracotta);
+  box-shadow: 0 0 12px rgba(195, 107, 78, 0.3);
+}
+
+.audioPlayIcon {
+  font-size: 0.7rem;
+}
+
+.audioWaveIndicator {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 12px;
+}
+
+.waveBar {
+  width: 2px;
+  background-color: #ffffff;
+  border-radius: 1px;
+  animation: waveBarBounce 1s infinite ease-in-out;
+}
+
+.waveBar:nth-child(1) { height: 4px; animation-delay: 0.0s; }
+.waveBar:nth-child(2) { height: 10px; animation-delay: 0.2s; }
+.waveBar:nth-child(3) { height: 7px; animation-delay: 0.4s; }
+.waveBar:nth-child(4) { height: 12px; animation-delay: 0.1s; }
+
+@keyframes waveBarBounce {
+  0%, 100% { transform: scaleY(0.4); }
+  50% { transform: scaleY(1.0); }
+}
+
+.audioMetaText {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--ink-tertiary);
+  letter-spacing: 0.04em;
+}
+
+.audioNowPlaying {
+  color: var(--accent-terracotta);
+  font-weight: 600;
+}
+
+/* Outbound reference links */
+.outboundLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  color: var(--ink-secondary);
+  text-decoration: none;
+  background: var(--bg-hover);
+  border: var(--border-hairline);
+  padding: 2px 6px;
+  border-radius: 3px;
+  margin-left: 6px;
+  vertical-align: middle;
+  transition: all 0.2s ease;
+}
+
+.outboundLink:hover {
+  border-color: var(--accent-terracotta);
+  color: var(--accent-terracotta);
 }
 
 .pillarFooter {

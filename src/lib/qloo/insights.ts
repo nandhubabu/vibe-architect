@@ -148,6 +148,8 @@ export async function getQlooInsights(
           `${QLOO_CONFIG.endpoints.insights}?${params.toString()}`
         );
 
+        const rawEntities = response.results?.entities || response.entities || [];
+
         const INCOMPATIBLE_COMMERCIAL_CHAINS = [
           'yard house',
           'outback steakhouse',

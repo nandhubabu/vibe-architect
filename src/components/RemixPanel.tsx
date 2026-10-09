@@ -6,10 +6,11 @@ import styles from './RemixPanel.module.css';
 interface RemixPanelProps {
   onRemix: (adjustments: { energy: number; era: number; intimacy: number }) => void;
   onShare: () => void;
+  onExportMarkdown?: () => void;
   isRemixing: boolean;
 }
 
-export function RemixPanel({ onRemix, onShare, isRemixing }: RemixPanelProps) {
+export function RemixPanel({ onRemix, onShare, onExportMarkdown, isRemixing }: RemixPanelProps) {
   const [energy, setEnergy] = useState(40);
   const [era, setEra] = useState(50);
   const [intimacy, setIntimacy] = useState(70);
@@ -89,8 +90,18 @@ export function RemixPanel({ onRemix, onShare, isRemixing }: RemixPanelProps) {
         </div>
 
         <div className={styles.actions}>
+          {onExportMarkdown && (
+            <button
+              type="button"
+              onClick={onExportMarkdown}
+              className={styles.exportBtn}
+              title="Download full curatorial spec sheet as Markdown"
+            >
+              📄 Download Spec Sheet (.md)
+            </button>
+          )}
           <button type="button" onClick={handleShareClick} className={styles.shareBtn}>
-            {copied ? 'Link Copied to Clipboard' : 'Export / Share Blueprint'}
+            {copied ? '✓ Deep-Link Copied' : '🔗 Copy Shareable Link'}
           </button>
           <button
             type="button"

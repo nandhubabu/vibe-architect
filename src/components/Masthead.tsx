@@ -5,10 +5,11 @@ import styles from './Masthead.module.css';
 
 interface MastheadProps {
   onOpenTasteTree?: () => void;
+  onOpenQlooStatus?: () => void;
   tasteTreeItemsCount?: number;
 }
 
-export function Masthead({ onOpenTasteTree, tasteTreeItemsCount }: MastheadProps) {
+export function Masthead({ onOpenTasteTree, onOpenQlooStatus, tasteTreeItemsCount }: MastheadProps) {
   const [qlooMode, setQlooMode] = useState<string>('Connecting...');
 
   useEffect(() => {
@@ -49,10 +50,15 @@ export function Masthead({ onOpenTasteTree, tasteTreeItemsCount }: MastheadProps
             </button>
           )}
 
-          <div className={styles.qlooBadge}>
+          <button
+            type="button"
+            className={styles.qlooBadge}
+            onClick={onOpenQlooStatus}
+            title="Inspect Live Qloo Cultural Graph & API Diagnostics"
+          >
             <span className={styles.dot} />
             <span>{qlooMode}</span>
-          </div>
+          </button>
         </div>
       </div>
     </header>

@@ -122,3 +122,22 @@
   border-color: var(--accent-terracotta);
   color: var(--accent-terracotta);
 }
+
+.exportBtn {
+  background: var(--bg-surface);
+  color: var(--ink-primary);
+  border: 1px solid var(--accent-olive);
+  padding: 10px 18px;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: var(--radius-minimal);
+  transition: all 0.2s ease;
+}
+
+.exportBtn:hover {
+  background: var(--accent-olive);
+  color: #ffffff;
+}

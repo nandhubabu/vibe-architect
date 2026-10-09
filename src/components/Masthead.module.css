@@ -95,10 +95,12 @@
   font-size: 0.72rem;
   color: var(--ink-secondary);
   text-decoration: none;
+  cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .qlooBadge:hover {
+  background: var(--bg-hover);
   border-color: var(--accent-terracotta);
   color: var(--accent-terracotta);
 }

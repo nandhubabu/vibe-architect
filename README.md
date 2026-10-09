@@ -262,6 +262,24 @@ Rather than overwhelming users with disconnected database tables, Vibe Architect
    - **Default View**: Sleek, immersive **Experiential Dossier**.
    - **One-Click Inspector**: Switch to **`🧬 Qloo Taste Graph (5D Engine)`** to inspect raw cross-domain affinity scores, category mappings, and entity tags for hackathon judges and curators.
 
+6. 🔊 **Procedural Web Audio Room Texture Generator**:
+   - Integrated into Pillar 02 (*The Ritual*), visitors can click `[ ▶ Listen to Room Acoustic Texture ]` to experience **real-time procedural audio synthesis** via the native browser Web Audio API:
+     - **Analog Vinyl Crackle & Tube Warmth** for intimate jazz salons and bohemian pubs.
+     - **Rain on Glass & Sub-Bass Atmosphere** for rainy Tokyo listening bars.
+     - **Hearth Ember Crackle & Wind Breath** for rustic Nordic cabin retreats.
+   - Built with zero external MP3 assets or audio files—synthesized purely on the client with dynamic bandpass filters, Poisson impulse buffers, and organic oscillators.
+
+7. 🔗 **Shareable URL Deep-Linking & 1-Click Markdown Dossier Export**:
+   - **Full URL Synchronization**: App automatically mirrors the active prompt in the URL query string (`?prompt=...`). Loading any deep-link automatically initializes and synthesizes that specific cultural atmosphere.
+   - **Curatorial Spec Sheet Export (.md)**: One-click `[ 📄 Export Spec (.md) ]` downloads a comprehensive, print-ready Markdown dossier including all 3 pillars, lighting specs, Kelvin badges, sensory profiles, and Qloo affinity metrics.
+   - **Outbound Curatorial Badges**: Direct links for `Spotify ↗`, `Letterboxd ↗`, and `Explore ↗` allow judges to immediately verify resolved entities against real-world cultural platforms.
+
+8. ⚡ **Interactive Qloo API Diagnostics & Live Latency Modal**:
+   - Clicking the `● QLOO LIVE GRAPH ACTIVE` masthead pill opens a live curatorial architecture modal displaying:
+     - Verified authenticated endpoint (`https://hackathon.api.qloo.com`)
+     - Live roundtrip latency ping with interactive re-test (`⚡ Re-test Live Latency`)
+     - Complete 7-domain coverage and raw JSON diagnostic payload inspector.
+
 ---
 
 ## 🏛️ Editorial Design Philosophy
@@ -295,6 +313,8 @@ Vibe Architect is built for real-world creative, hospitality, and spatial indust
 - **Cultural Intelligence**: Qloo Hackathon Taste Graph API (`https://hackathon.api.qloo.com/v2/insights` & `/search`)
 - **Agent Intelligence**: Google Gemini 3.8 Flash (`gemini-3.8-flash`) via official `@google/genai` SDK
 - **Taste Memory Engine**: Client-side 5-Node Knowledge Tree with `localStorage` persistence, priority weighting, and browser search signal ingestion
+- **Sensory Acoustics**: Browser-native Web Audio API procedural synthesis engine (zero external audio files)
+- **Dossier Exporter**: Client-side Markdown curatorial spec sheet generator and URL state serializer
 - **Hosting & Deployment**: Vercel (Production-optimized)
 
 ### API Endpoints

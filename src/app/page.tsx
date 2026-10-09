@@ -16,6 +16,8 @@ import {
   loadUserTasteTree,
   learnFromBlueprint,
 } from '@/lib/taste-tree/memory';
+import { downloadBlueprintMarkdown } from '@/lib/export/dossier-export';
+import { QlooStatusModal } from '@/components/QlooStatusModal';
 
 const DEFAULT_INITIAL_BLUEPRINT: CulturalBlueprint = {
   id: 'blueprint-initial',
@@ -139,10 +141,19 @@ export default function HomePage() {
   const [isComplete, setIsComplete] = useState(true);
   const [tasteTree, setTasteTree] = useState<UserTasteTree>(DEFAULT_USER_TASTE_TREE);
   const [isTasteTreeOpen, setIsTasteTreeOpen] = useState(false);
+  const [isQlooStatusOpen, setIsQlooStatusOpen] = useState(false);
   const [tasteMemoryToast, setTasteMemoryToast] = useState<string | null>(null);
 
   useEffect(() => {
     setTasteTree(loadUserTasteTree());
+
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const urlPrompt = params.get('prompt') || params.get('vibe');
+      if (urlPrompt && urlPrompt.trim().length > 0) {
+        handleSynthesize(urlPrompt.trim());
+      }
+    }
   }, []);
 
   const totalTasteItems = Object.values(tasteTree.nodes).reduce(
@@ -153,6 +164,13 @@ export default function HomePage() {
   const handleSynthesize = async (promptText: string) => {
     setIsLoading(true);
     setIsComplete(false);
+
+    // Sync prompt to browser URL for 1-click sharing
+    if (typeof window !== 'undefined') {
+      const url = new URL(window.location.href);
+      url.searchParams.set('prompt', promptText);
+      window.history.replaceState(null, '', url.toString());
+    }
 
     // Initial simulated steps for instantaneous feedback
     const initialSteps: AgentStepLog[] = [
@@ -248,7 +266,19 @@ export default function HomePage() {
 
   const handleShare = () => {
     if (typeof window !== 'undefined') {
-      navigator.clipboard.writeText(window.location.href);
+      const url = new URL(window.location.href);
+      if (blueprint?.prompt) {
+        url.searchParams.set('prompt', blueprint.prompt);
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url.toString()).catch(() => {});
+      }
+    }
+  };
+
+  const handleExportMarkdown = () => {
+    if (blueprint) {
+      downloadBlueprintMarkdown(blueprint);
     }
   };
 
@@ -256,6 +286,7 @@ export default function HomePage() {
     <div className={styles.pageContainer}>
       <Masthead
         onOpenTasteTree={() => setIsTasteTreeOpen(true)}
+        onOpenQlooStatus={() => setIsQlooStatusOpen(true)}
         tasteTreeItemsCount={totalTasteItems}
       />
 
@@ -303,7 +334,12 @@ export default function HomePage() {
 
         <BlueprintCanvas blueprint={blueprint} />
 
-        <RemixPanel onRemix={handleRemix} onShare={handleShare} isRemixing={isLoading} />
+        <RemixPanel
+          onRemix={handleRemix}
+          onShare={handleShare}
+          onExportMarkdown={handleExportMarkdown}
+          isRemixing={isLoading}
+        />
       </main>
 
       <TasteTreeDrawer
@@ -311,6 +347,11 @@ export default function HomePage() {
         onClose={() => setIsTasteTreeOpen(false)}
         tasteTree={tasteTree}
         onUpdateTree={setTasteTree}
+      />
+
+      <QlooStatusModal
+        isOpen={isQlooStatusOpen}
+        onClose={() => setIsQlooStatusOpen(false)}
       />
 
       <footer className={styles.footer}>
