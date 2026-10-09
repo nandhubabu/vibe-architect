@@ -8,18 +8,13 @@ interface BlueprintCanvasProps {
   blueprint: CulturalBlueprint;
 }
 
-function EntityListSection({
-  entities,
-  categoryKey,
-  isExpanded,
-  onToggle,
-}: {
-  entities: QlooEntity[];
-  categoryKey: string;
-  isExpanded: boolean;
-  onToggle: (key: string) => void;
-}) {
-  const visible = isExpanded ? entities : entities.slice(0, 3);
+function EntityListSection({ entities }: { entities: QlooEntity[] }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  // Enforce strict top 3 (curated) or top 5 (expanded maximum)
+  const cappedEntities = (entities || []).slice(0, 5);
+  const visible = isExpanded ? cappedEntities : cappedEntities.slice(0, 3);
+  const hasMore = cappedEntities.length > 3;
+
   return (
     <div>
       <div className={styles.entityList}>
@@ -35,15 +30,15 @@ function EntityListSection({
           </div>
         ))}
       </div>
-      {entities.length > 3 && (
+      {hasMore && (
         <button
           type="button"
           className={styles.expandToggle}
-          onClick={() => onToggle(categoryKey)}
+          onClick={() => setIsExpanded((prev) => !prev)}
         >
           {isExpanded
             ? '▲ Show Top 3 Curated'
-            : `+ Explore All ${entities.length} Qloo Graph Correlates`}
+            : `+ Show Top 5 Correlates (${cappedEntities.length} Total)`}
         </button>
       )}
     </div>
@@ -52,11 +47,6 @@ function EntityListSection({
 
 export function BlueprintCanvas({ blueprint }: BlueprintCanvasProps) {
   const { categories, culturalDNA } = blueprint;
-  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
-
-  const handleToggle = (key: string) => {
-    setExpanded((prev) => ({ ...prev, [key]: !prev[key] }));
-  };
 
   return (
     <article className={styles.canvasContainer}>
@@ -93,12 +83,7 @@ export function BlueprintCanvas({ blueprint }: BlueprintCanvasProps) {
               <span>MUSIC</span>
             </div>
             <h3 className={styles.cardTheme}>{categories.soundtrack.theme}</h3>
-            <EntityListSection
-              entities={categories.soundtrack.entities}
-              categoryKey="soundtrack"
-              isExpanded={Boolean(expanded.soundtrack)}
-              onToggle={handleToggle}
-            />
+            <EntityListSection entities={categories.soundtrack.entities} />
           </div>
           <div className={styles.cardFooter}>
             <span className={styles.footerDot} />
@@ -114,12 +99,7 @@ export function BlueprintCanvas({ blueprint }: BlueprintCanvasProps) {
               <span>DINING</span>
             </div>
             <h3 className={styles.cardTheme}>{categories.gastronomy.concept}</h3>
-            <EntityListSection
-              entities={categories.gastronomy.entities}
-              categoryKey="gastronomy"
-              isExpanded={Boolean(expanded.gastronomy)}
-              onToggle={handleToggle}
-            />
+            <EntityListSection entities={categories.gastronomy.entities} />
           </div>
           <div className={styles.cardFooter}>
             <span className={styles.footerDot} />
@@ -135,12 +115,7 @@ export function BlueprintCanvas({ blueprint }: BlueprintCanvasProps) {
               <span>CINEMA</span>
             </div>
             <h3 className={styles.cardTheme}>{categories.cinema.aestheticTone}</h3>
-            <EntityListSection
-              entities={categories.cinema.entities}
-              categoryKey="cinema"
-              isExpanded={Boolean(expanded.cinema)}
-              onToggle={handleToggle}
-            />
+            <EntityListSection entities={categories.cinema.entities} />
           </div>
           <div className={styles.cardFooter}>
             <span className={styles.footerDot} />
@@ -156,16 +131,11 @@ export function BlueprintCanvas({ blueprint }: BlueprintCanvasProps) {
               <span>FASHION</span>
             </div>
             <h3 className={styles.cardTheme}>{categories.sartorial.dressCode}</h3>
-            <EntityListSection
-              entities={categories.sartorial.entities}
-              categoryKey="sartorial"
-              isExpanded={Boolean(expanded.sartorial)}
-              onToggle={handleToggle}
-            />
+            <EntityListSection entities={categories.sartorial.entities} />
           </div>
           <div className={styles.cardFooter}>
             <span className={styles.footerDot} />
-            <span>MATERIALS: {categories.sartorial.materialsAndPalette.join(', ')}</span>
+            <span>MATERIALS: {categories.sartorial.materialsAndPalette.slice(0, 4).join(', ')}</span>
           </div>
         </div>
 
@@ -177,12 +147,7 @@ export function BlueprintCanvas({ blueprint }: BlueprintCanvasProps) {
               <span>ATMOSPHERE</span>
             </div>
             <h3 className={styles.cardTheme}>{categories.spaces.architecturalAtmosphere}</h3>
-            <EntityListSection
-              entities={categories.spaces.entities}
-              categoryKey="spaces"
-              isExpanded={Boolean(expanded.spaces)}
-              onToggle={handleToggle}
-            />
+            <EntityListSection entities={categories.spaces.entities} />
           </div>
           <div className={styles.cardFooter}>
             <span className={styles.footerDot} />

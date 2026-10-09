@@ -8,8 +8,14 @@ import { AgentThinkingView } from '@/components/AgentThinkingView';
 import { BlueprintCanvas } from '@/components/BlueprintCanvas';
 import { SensoryDetailsGrid } from '@/components/SensoryDetailsGrid';
 import { RemixPanel } from '@/components/RemixPanel';
-import { CulturalBlueprint } from '@/types/qloo';
+import { CulturalBlueprint, UserTasteTree } from '@/types/qloo';
 import { AgentStepLog } from '@/lib/agent/tools';
+import { TasteTreeDrawer } from '@/components/TasteTreeDrawer';
+import {
+  DEFAULT_USER_TASTE_TREE,
+  loadUserTasteTree,
+  learnFromBlueprint,
+} from '@/lib/taste-tree/memory';
 
 const DEFAULT_INITIAL_BLUEPRINT: CulturalBlueprint = {
   id: 'blueprint-initial',
@@ -131,6 +137,18 @@ export default function HomePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [reasoningSteps, setReasoningSteps] = useState<AgentStepLog[]>([]);
   const [isComplete, setIsComplete] = useState(true);
+  const [tasteTree, setTasteTree] = useState<UserTasteTree>(DEFAULT_USER_TASTE_TREE);
+  const [isTasteTreeOpen, setIsTasteTreeOpen] = useState(false);
+  const [tasteMemoryToast, setTasteMemoryToast] = useState<string | null>(null);
+
+  useEffect(() => {
+    setTasteTree(loadUserTasteTree());
+  }, []);
+
+  const totalTasteItems = Object.values(tasteTree.nodes).reduce(
+    (acc, n) => acc + (n.items?.length || 0),
+    0
+  );
 
   const handleSynthesize = async (promptText: string) => {
     setIsLoading(true);
@@ -144,8 +162,13 @@ export default function HomePage() {
         timestamp: new Date().toISOString(),
       },
       {
+        step: 'Taste Memory Grounding',
+        detail: `Grounding with 5-Node Taste Tree: Acoustic (${tasteTree.nodes.music.priorityWeight}/5), Cinema (${tasteTree.nodes.film.priorityWeight}/5), Dining (${tasteTree.nodes.dining.priorityWeight}/5), Sartorial (${tasteTree.nodes.fashion.priorityWeight}/5), Atmosphere (${tasteTree.nodes.atmosphere.priorityWeight}/5).`,
+        timestamp: new Date().toISOString(),
+      },
+      {
         step: 'Qloo Entity Resolution',
-        detail: 'Connecting natural language signals to Qloo’s 250M+ entity graph.',
+        detail: 'Connecting natural language signals and prioritized taste anchors to Qloo’s 250M+ entity graph.',
         timestamp: new Date().toISOString(),
       },
     ];
@@ -155,7 +178,7 @@ export default function HomePage() {
       const response = await fetch('/api/agent/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt: promptText }),
+        body: JSON.stringify({ prompt: promptText, userTasteTree: tasteTree }),
       });
 
       const data = await response.json();
@@ -164,6 +187,23 @@ export default function HomePage() {
         setBlueprint(data.blueprint);
         setReasoningSteps(data.steps || initialSteps);
         setIsComplete(true);
+
+        // Auto-learn into taste tree memory
+        if (tasteTree.autoLearnEnabled) {
+          const { updatedTree, learnedEntities } = learnFromBlueprint(
+            tasteTree,
+            data.blueprint
+          );
+          if (learnedEntities.length > 0) {
+            setTasteTree(updatedTree);
+            setTasteMemoryToast(
+              `Learned ${learnedEntities.length} cultural correlate${
+                learnedEntities.length > 1 ? 's' : ''
+              } (${learnedEntities.join(', ')}) into your 5-Node Taste Tree!`
+            );
+            setTimeout(() => setTasteMemoryToast(null), 6000);
+          }
+        }
       } else {
         alert(data.error || 'Failed to synthesize blueprint.');
       }
@@ -214,7 +254,47 @@ export default function HomePage() {
 
   return (
     <div className={styles.pageContainer}>
-      <Masthead />
+      <Masthead
+        onOpenTasteTree={() => setIsTasteTreeOpen(true)}
+        tasteTreeItemsCount={totalTasteItems}
+      />
+
+      <div className={styles.tasteTreeBanner}>
+        <div className={styles.tasteTreeBannerLeft}>
+          <span className={styles.bannerTag}>ACTIVE TASTE MEMORY</span>
+          <span className={styles.bannerTitle}>
+            5-Node Cultural Memory Model
+          </span>
+          <div className={styles.bannerNodes}>
+            <span className={styles.nodePill}>🎵 Music: {tasteTree.nodes.music.priorityWeight}x</span>
+            <span className={styles.nodePill}>🎬 Film: {tasteTree.nodes.film.priorityWeight}x</span>
+            <span className={styles.nodePill}>🍷 Dining: {tasteTree.nodes.dining.priorityWeight}x</span>
+            <span className={styles.nodePill}>✂️ Fashion: {tasteTree.nodes.fashion.priorityWeight}x</span>
+            <span className={styles.nodePill}>🏛️ Space: {tasteTree.nodes.atmosphere.priorityWeight}x</span>
+          </div>
+        </div>
+        <button
+          type="button"
+          className={styles.bannerBtn}
+          onClick={() => setIsTasteTreeOpen(true)}
+        >
+          Adjust Priorities & Ingest Searches →
+        </button>
+      </div>
+
+      {tasteMemoryToast && (
+        <div className={styles.memoryToast}>
+          <span className={styles.toastIcon}>🧬</span>
+          <span>{tasteMemoryToast}</span>
+          <button
+            type="button"
+            className={styles.toastViewBtn}
+            onClick={() => setIsTasteTreeOpen(true)}
+          >
+            View Tree →
+          </button>
+        </div>
+      )}
 
       <main className={styles.mainContent}>
         <PromptHero onSynthesize={handleSynthesize} isLoading={isLoading} />
@@ -227,6 +307,13 @@ export default function HomePage() {
 
         <RemixPanel onRemix={handleRemix} onShare={handleShare} isRemixing={isLoading} />
       </main>
+
+      <TasteTreeDrawer
+        isOpen={isTasteTreeOpen}
+        onClose={() => setIsTasteTreeOpen(false)}
+        tasteTree={tasteTree}
+        onUpdateTree={setTasteTree}
+      />
 
       <footer className={styles.footer}>
         <div className={styles.footerInner}>

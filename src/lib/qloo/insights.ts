@@ -136,7 +136,7 @@ export async function getQlooInsights(
   if (QLOO_CONFIG.hasLiveKey && qlooSeedUuids.length > 0) {
     const categoryFetchPromises = targetCategories.map(async (cat) => {
       const filterType = QLOO_CONFIG.categoryFilterTypes[cat] || 'urn:entity:place';
-      const sampleSize = request.sampleSize || 4;
+      const sampleSize = Math.min(5, request.sampleSize || 5);
       const params = new URLSearchParams({
         'filter.type': filterType,
         'signal.interests.entities': qlooSeedUuids.join(','),
@@ -152,7 +152,7 @@ export async function getQlooInsights(
           response.results?.entities || response.entities || [];
 
         if (rawEntities.length > 0) {
-          recommendations[cat] = rawEntities.map((item, idx) => {
+          recommendations[cat] = rawEntities.slice(0, 5).map((item, idx) => {
             const rawScore =
               item.query?.affinity ?? item.affinity_score ?? item.popularity ?? 0.9;
             const affinityScore = Math.min(

@@ -47,6 +47,42 @@
   gap: 16px;
 }
 
+.tasteTreeBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: var(--bg-surface);
+  border: var(--border-crisp);
+  border-radius: var(--radius-minimal);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  color: var(--ink-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tasteTreeBtn:hover {
+  background: var(--bg-subtle);
+  border-color: var(--accent-terracotta);
+  color: var(--accent-terracotta);
+}
+
+.dnaIcon {
+  font-size: 0.85rem;
+}
+
+.itemCountBadge {
+  background: var(--bg-terracotta-soft);
+  color: var(--accent-terracotta);
+  border: 1px solid rgba(195, 107, 78, 0.3);
+  font-size: 0.65rem;
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-weight: 700;
+}
+
 .qlooBadge {
   display: flex;
   align-items: center;

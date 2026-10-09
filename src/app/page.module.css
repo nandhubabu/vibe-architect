@@ -9,6 +9,130 @@
   flex: 1;
 }
 
+.tasteTreeBanner {
+  max-width: var(--max-width-editorial);
+  margin: 16px auto 0;
+  padding: 12px 24px;
+  background: var(--bg-surface);
+  border: var(--border-hairline);
+  border-left: 3px solid var(--accent-terracotta);
+  border-radius: var(--radius-minimal);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.tasteTreeBannerLeft {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.bannerTag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  color: var(--accent-terracotta);
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.bannerTitle {
+  font-family: var(--font-serif-display);
+  font-size: 0.95rem;
+  color: var(--ink-primary);
+  font-weight: 500;
+}
+
+.bannerNodes {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.nodePill {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  padding: 2px 8px;
+  background: var(--bg-subtle);
+  border: var(--border-hairline);
+  border-radius: 12px;
+  color: var(--ink-secondary);
+}
+
+.bannerBtn {
+  background: none;
+  border: var(--border-crisp);
+  padding: 5px 12px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-primary);
+  border-radius: var(--radius-minimal);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.bannerBtn:hover {
+  background: var(--ink-primary);
+  color: #ffffff;
+}
+
+.memoryToast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 90;
+  background: var(--ink-primary);
+  color: #ffffff;
+  padding: 12px 18px;
+  border-radius: var(--radius-minimal);
+  box-shadow: var(--shadow-editorial);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.toastIcon {
+  font-size: 1.1rem;
+}
+
+.toastViewBtn {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  padding: 3px 8px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  cursor: pointer;
+  border-radius: 2px;
+  white-space: nowrap;
+}
+
+.toastViewBtn:hover {
+  background: #ffffff;
+  color: var(--ink-primary);
+}
+
 .footer {
   border-top: var(--border-hairline);
   background: var(--bg-surface);

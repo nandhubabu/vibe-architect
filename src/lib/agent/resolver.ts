@@ -1,4 +1,4 @@
-import { QlooEntity } from '@/types/qloo';
+import { QlooEntity, UserTasteTree } from '@/types/qloo';
 import { runToolSearchQloo } from './tools';
 
 export interface ParsedUserIntent {
@@ -33,10 +33,11 @@ const CULTURAL_ANCHORS = [
 ];
 
 /**
- * Extracts cultural intent, aesthetics, and seeds from the user's prompt.
+ * Extracts cultural intent, aesthetics, and seeds from prompt combined with User Taste Tree memory.
  */
 export async function parseAndResolveCulturalSeeds(
-  prompt: string
+  prompt: string,
+  userTasteTree?: UserTasteTree
 ): Promise<{ intent: ParsedUserIntent; resolvedSeeds: QlooEntity[] }> {
   const lowerPrompt = prompt.toLowerCase();
 
@@ -67,17 +68,41 @@ export async function parseAndResolveCulturalSeeds(
     }
   }
 
-  // Fallback anchor if prompt is very abstract
+  // Harmonize with User Taste Tree Memory
+  if (userTasteTree && userTasteTree.nodes) {
+    // Sort nodes by priority weight descending
+    const prioritizedNodes = Object.values(userTasteTree.nodes).sort(
+      (a, b) => b.priorityWeight - a.priorityWeight
+    );
+
+    for (const node of prioritizedNodes) {
+      if (node.priorityWeight >= 4 && node.items.length > 0) {
+        // Pick highest weighted item
+        const topItem = [...node.items].sort((a, b) => b.weight - a.weight)[0];
+        if (topItem && !matchedTokens.some((t) => t.toLowerCase() === topItem.name.toLowerCase())) {
+          // If prompt had few tokens, or if this is a dominant 5/5 priority node, weave it in
+          if (matchedTokens.length < 3 || node.priorityWeight === 5) {
+            matchedTokens.push(topItem.name);
+          }
+        }
+      }
+    }
+  }
+
+  // Fallback anchor if prompt and memory are both empty
   if (matchedTokens.length === 0) {
     matchedTokens.push('miles davis');
   }
 
-  // Resolve seeds through Qloo search tool
+  // Resolve seeds through Qloo search tool (cap to 3 or 4 focused seeds)
   const resolvedSeeds: QlooEntity[] = [];
-  for (const token of matchedTokens.slice(0, 3)) {
+  for (const token of matchedTokens.slice(0, 4)) {
     const { results } = await runToolSearchQloo(token);
     if (results.length > 0) {
-      resolvedSeeds.push(results[0]);
+      // Avoid duplicate entity IDs
+      if (!resolvedSeeds.some((r) => r.id === results[0].id)) {
+        resolvedSeeds.push(results[0]);
+      }
     }
   }
 

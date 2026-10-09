@@ -37,7 +37,7 @@ export function SensoryDetailsGrid({ sensory }: SensoryDetailsGridProps) {
             <span className={styles.cellLabel}>03 • MATERIAL SURFACES</span>
             <span className={styles.cellValue}>Tactile Palette</span>
             <div className={styles.tags}>
-              {sensory.textureMaterials.map((mat, idx) => (
+              {(sensory.textureMaterials || []).slice(0, 4).map((mat, idx) => (
                 <span key={idx} className={styles.tag}>
                   {mat}
                 </span>
@@ -52,7 +52,7 @@ export function SensoryDetailsGrid({ sensory }: SensoryDetailsGridProps) {
             CURATED CONVERSATION ANCHORS (TASTE GRAPH CORRELATED)
           </span>
           <ul className={styles.conversationList}>
-            {sensory.conversationAnchors.map((starter, idx) => (
+            {(sensory.conversationAnchors || []).slice(0, 3).map((starter, idx) => (
               <li key={idx} className={styles.conversationItem}>
                 <span className={styles.quoteMark}>—</span>
                 <span>{starter}</span>

@@ -3,7 +3,12 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Masthead.module.css';
 
-export function Masthead() {
+interface MastheadProps {
+  onOpenTasteTree?: () => void;
+  tasteTreeItemsCount?: number;
+}
+
+export function Masthead({ onOpenTasteTree, tasteTreeItemsCount }: MastheadProps) {
   const [qlooMode, setQlooMode] = useState<string>('Connecting...');
 
   useEffect(() => {
@@ -29,6 +34,21 @@ export function Masthead() {
           <span className={styles.issueTag}>VOL. 01 — CULTURAL INTELLIGENCE</span>
         </div>
         <div className={styles.right}>
+          {onOpenTasteTree && (
+            <button
+              type="button"
+              className={styles.tasteTreeBtn}
+              onClick={onOpenTasteTree}
+              title="Open 5-Node User Taste Memory Tree"
+            >
+              <span className={styles.dnaIcon}>🧬</span>
+              <span>TASTE MEMORY TREE</span>
+              {tasteTreeItemsCount !== undefined && (
+                <span className={styles.itemCountBadge}>{tasteTreeItemsCount}</span>
+              )}
+            </button>
+          )}
+
           <div className={styles.qlooBadge}>
             <span className={styles.dot} />
             <span>{qlooMode}</span>

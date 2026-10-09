@@ -5,6 +5,7 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const prompt = body?.prompt;
+    const userTasteTree = body?.userTasteTree;
 
     if (!prompt || typeof prompt !== 'string' || prompt.trim().length === 0) {
       return NextResponse.json(
@@ -13,7 +14,7 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const result = await runAgentOrchestrator(prompt.trim());
+    const result = await runAgentOrchestrator(prompt.trim(), userTasteTree);
 
     return NextResponse.json({
       success: true,

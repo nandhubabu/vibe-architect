@@ -108,3 +108,38 @@ export interface CulturalBlueprint {
     tasteSignature: string;
   };
 }
+
+export type TasteNodeCategory = 'music' | 'film' | 'dining' | 'fashion' | 'atmosphere';
+
+export interface TasteNodeItem {
+  id: string;
+  name: string;
+  priority: 'high' | 'medium' | 'low';
+  weight: number; // 1 to 5
+  source: 'user_defined' | 'learned' | 'imported';
+  timestamp: string;
+}
+
+export interface TasteTreeNode {
+  id: TasteNodeCategory;
+  title: string;
+  subtitle: string;
+  icon: string;
+  priorityWeight: number; // 1 to 5
+  items: TasteNodeItem[];
+}
+
+export interface UserTasteTree {
+  version: number;
+  userId: string;
+  updatedAt: string;
+  autoLearnEnabled: boolean;
+  nodes: {
+    music: TasteTreeNode;
+    film: TasteTreeNode;
+    dining: TasteTreeNode;
+    fashion: TasteTreeNode;
+    atmosphere: TasteTreeNode;
+  };
+}
+
