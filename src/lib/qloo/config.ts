@@ -7,11 +7,25 @@ export const QLOO_CONFIG = {
   trustedBaseUrl: process.env.QLOO_TRUSTED_BASE_URL || 'https://hackathon.api.qloo.com',
   apiKey: process.env.QLOO_API_KEY || '',
   endpoints: {
-    search: '/v1/search',
-    insights: '/v1/insights',
-    entities: '/v1/entities',
-    tags: '/v1/tags',
+    search: '/search',
+    insights: '/v2/insights',
+    entities: '/entities',
+    tags: '/v2/tags',
   },
-  timeoutMs: 8000,
-  hasLiveKey: Boolean(process.env.QLOO_API_KEY && process.env.QLOO_API_KEY.trim().length > 0),
+  timeoutMs: 12000,
+  categoryFilterTypes: {
+    music: 'urn:entity:artist',
+    film: 'urn:entity:movie',
+    dining: 'urn:entity:place',
+    fashion: 'urn:entity:brand',
+    literature: 'urn:entity:book',
+    destinations: 'urn:entity:destination',
+    atmosphere: 'urn:entity:place',
+  } as const,
+  get hasLiveKey(): boolean {
+    return Boolean(
+      (process.env.QLOO_API_KEY && process.env.QLOO_API_KEY.trim().length > 0) ||
+        (this.apiKey && this.apiKey.trim().length > 0)
+    );
+  },
 };

@@ -3,9 +3,7 @@ import { QLOO_CONFIG } from '@/lib/qloo/config';
 import { CURATED_CULTURAL_GRAPH } from '@/lib/qloo/mock-graph';
 
 export async function GET() {
-  const hasLiveKey = Boolean(
-    process.env.QLOO_API_KEY && process.env.QLOO_API_KEY.trim().length > 0
-  );
+  const hasLiveKey = QLOO_CONFIG.hasLiveKey;
 
   return NextResponse.json({
     status: 'healthy',
@@ -27,7 +25,7 @@ export async function GET() {
       ],
     },
     system: {
-      framework: 'Next.js 15 App Router',
+      framework: 'Next.js 16 App Router',
       agentEngine: 'Google Gemini & Qloo Cultural Grounding Loop',
     },
   });

@@ -3,15 +3,32 @@ import { qlooFetch, QlooApiError } from './client';
 import { QLOO_CONFIG } from './config';
 import { searchMockCulturalGraph } from './mock-graph';
 
+interface RawQlooTag {
+  name?: string;
+  tag_id?: string;
+  type?: string;
+}
+
 interface RawQlooEntityResponse {
   id?: string;
+  entity_id?: string;
   name?: string;
   title?: string;
   type?: string;
+  types?: string[];
+  subtype?: string;
   category?: string;
   popularity?: number;
-  tags?: string[];
+  tags?: Array<RawQlooTag | string>;
   description?: string;
+  disambiguation?: string;
+  properties?: {
+    image?: { url?: string };
+    biography?: string;
+    description?: string;
+    short_descriptions?: Array<{ value: string }>;
+    external?: Record<string, unknown>;
+  };
 }
 
 interface RawQlooSearchResponse {
@@ -20,24 +37,63 @@ interface RawQlooSearchResponse {
   entities?: RawQlooEntityResponse[];
 }
 
-function normalizeCategory(typeOrCategory?: string): QlooCategory {
-  const normalized = (typeOrCategory || '').toLowerCase();
-  if (normalized.includes('music') || normalized.includes('song') || normalized.includes('artist')) {
+function normalizeCategory(
+  types?: string[],
+  typeOrCategory?: string,
+  preferredCategory?: QlooCategory
+): QlooCategory {
+  if (preferredCategory) return preferredCategory;
+  const combined = [
+    ...(types || []),
+    typeOrCategory || '',
+  ]
+    .join(' ')
+    .toLowerCase();
+
+  if (
+    combined.includes('artist') ||
+    combined.includes('music') ||
+    combined.includes('song') ||
+    combined.includes('album')
+  ) {
     return 'music';
   }
-  if (normalized.includes('film') || normalized.includes('movie') || normalized.includes('tv')) {
+  if (
+    combined.includes('movie') ||
+    combined.includes('film') ||
+    combined.includes('tv_show') ||
+    combined.includes('tv')
+  ) {
     return 'film';
   }
-  if (normalized.includes('food') || normalized.includes('restaurant') || normalized.includes('dining')) {
+  if (
+    combined.includes('food') ||
+    combined.includes('restaurant') ||
+    combined.includes('dining') ||
+    combined.includes('wine')
+  ) {
     return 'dining';
   }
-  if (normalized.includes('fashion') || normalized.includes('brand') || normalized.includes('clothing')) {
+  if (
+    combined.includes('brand') ||
+    combined.includes('fashion') ||
+    combined.includes('clothing')
+  ) {
     return 'fashion';
   }
-  if (normalized.includes('book') || normalized.includes('author') || normalized.includes('literature')) {
+  if (
+    combined.includes('book') ||
+    combined.includes('author') ||
+    combined.includes('literature')
+  ) {
     return 'literature';
   }
-  if (normalized.includes('place') || normalized.includes('destination') || normalized.includes('city') || normalized.includes('venue')) {
+  if (
+    combined.includes('destination') ||
+    combined.includes('place') ||
+    combined.includes('city') ||
+    combined.includes('venue')
+  ) {
     return 'destinations';
   }
   return 'atmosphere';
@@ -59,7 +115,6 @@ export async function searchQlooEntities(
     try {
       const params = new URLSearchParams({
         query: trimmed,
-        ...(categoryFilter ? { category: categoryFilter } : {}),
       });
 
       const response = await qlooFetch<RawQlooSearchResponse>(
@@ -68,15 +123,44 @@ export async function searchQlooEntities(
 
       const items = response.results || response.data || response.entities || [];
       if (items.length > 0) {
-        return items.map((item, idx) => ({
-          id: item.id || `entity-${idx}-${encodeURIComponent(item.name || item.title || trimmed)}`,
-          name: item.name || item.title || trimmed,
-          category: normalizeCategory(item.category || item.type || categoryFilter),
-          type: item.type,
-          popularity: item.popularity || 0.85,
-          tags: item.tags || [trimmed.toLowerCase()],
-          description: item.description,
-        }));
+        return items.map((item, idx) => {
+          const entityId =
+            item.entity_id ||
+            item.id ||
+            `entity-${idx}-${encodeURIComponent(item.name || item.title || trimmed)}`;
+          const entityName = item.name || item.title || trimmed;
+          const category = normalizeCategory(
+            item.types,
+            item.subtype || item.category || item.type,
+            categoryFilter
+          );
+
+          const tagList = (item.tags || []).map((t) =>
+            typeof t === 'string' ? t : t.name || t.tag_id || ''
+          ).filter(Boolean);
+
+          const desc =
+            item.description ||
+            item.properties?.biography ||
+            item.properties?.description ||
+            item.properties?.short_descriptions?.[0]?.value ||
+            item.disambiguation ||
+            undefined;
+
+          return {
+            id: entityId,
+            name: entityName,
+            category,
+            type: item.type || (item.types && item.types[0]),
+            popularity: item.popularity || 0.85,
+            tags: tagList.length > 0 ? tagList : [trimmed.toLowerCase()],
+            description: desc,
+            metadata: {
+              imageUrl: item.properties?.image?.url,
+              disambiguation: item.disambiguation,
+            },
+          };
+        });
       }
     } catch (err) {
       console.warn(
