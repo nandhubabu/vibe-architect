@@ -1,15 +1,62 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './BlueprintCanvas.module.css';
-import { CulturalBlueprint } from '@/types/qloo';
+import { CulturalBlueprint, QlooEntity } from '@/types/qloo';
 
 interface BlueprintCanvasProps {
   blueprint: CulturalBlueprint;
 }
 
+function EntityListSection({
+  entities,
+  categoryKey,
+  isExpanded,
+  onToggle,
+}: {
+  entities: QlooEntity[];
+  categoryKey: string;
+  isExpanded: boolean;
+  onToggle: (key: string) => void;
+}) {
+  const visible = isExpanded ? entities : entities.slice(0, 3);
+  return (
+    <div>
+      <div className={styles.entityList}>
+        {visible.map((ent, idx) => (
+          <div key={idx} className={styles.entityItem}>
+            <div className={styles.entityHeader}>
+              <span className={styles.entityName}>{ent.name}</span>
+              <span className={styles.entityAffinity}>
+                {Math.round((ent.affinityScore || 0.9) * 100)}% AFFINITY
+              </span>
+            </div>
+            {ent.description && <p className={styles.entityDesc}>{ent.description}</p>}
+          </div>
+        ))}
+      </div>
+      {entities.length > 3 && (
+        <button
+          type="button"
+          className={styles.expandToggle}
+          onClick={() => onToggle(categoryKey)}
+        >
+          {isExpanded
+            ? '▲ Show Top 3 Curated'
+            : `+ Explore All ${entities.length} Qloo Graph Correlates`}
+        </button>
+      )}
+    </div>
+  );
+}
+
 export function BlueprintCanvas({ blueprint }: BlueprintCanvasProps) {
-  const { categories, sensory, culturalDNA } = blueprint;
+  const { categories, culturalDNA } = blueprint;
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+
+  const handleToggle = (key: string) => {
+    setExpanded((prev) => ({ ...prev, [key]: !prev[key] }));
+  };
 
   return (
     <article className={styles.canvasContainer}>
@@ -46,19 +93,12 @@ export function BlueprintCanvas({ blueprint }: BlueprintCanvasProps) {
               <span>MUSIC</span>
             </div>
             <h3 className={styles.cardTheme}>{categories.soundtrack.theme}</h3>
-            <div className={styles.entityList}>
-              {categories.soundtrack.entities.map((ent, idx) => (
-                <div key={idx} className={styles.entityItem}>
-                  <div className={styles.entityHeader}>
-                    <span className={styles.entityName}>{ent.name}</span>
-                    <span className={styles.entityAffinity}>
-                      {Math.round((ent.affinityScore || 0.9) * 100)}% AFFINITY
-                    </span>
-                  </div>
-                  <p className={styles.entityDesc}>{ent.description}</p>
-                </div>
-              ))}
-            </div>
+            <EntityListSection
+              entities={categories.soundtrack.entities}
+              categoryKey="soundtrack"
+              isExpanded={Boolean(expanded.soundtrack)}
+              onToggle={handleToggle}
+            />
           </div>
           <div className={styles.cardFooter}>
             <span className={styles.footerDot} />
@@ -74,19 +114,12 @@ export function BlueprintCanvas({ blueprint }: BlueprintCanvasProps) {
               <span>DINING</span>
             </div>
             <h3 className={styles.cardTheme}>{categories.gastronomy.concept}</h3>
-            <div className={styles.entityList}>
-              {categories.gastronomy.entities.map((ent, idx) => (
-                <div key={idx} className={styles.entityItem}>
-                  <div className={styles.entityHeader}>
-                    <span className={styles.entityName}>{ent.name}</span>
-                    <span className={styles.entityAffinity}>
-                      {Math.round((ent.affinityScore || 0.9) * 100)}% AFFINITY
-                    </span>
-                  </div>
-                  <p className={styles.entityDesc}>{ent.description}</p>
-                </div>
-              ))}
-            </div>
+            <EntityListSection
+              entities={categories.gastronomy.entities}
+              categoryKey="gastronomy"
+              isExpanded={Boolean(expanded.gastronomy)}
+              onToggle={handleToggle}
+            />
           </div>
           <div className={styles.cardFooter}>
             <span className={styles.footerDot} />
@@ -102,19 +135,12 @@ export function BlueprintCanvas({ blueprint }: BlueprintCanvasProps) {
               <span>CINEMA</span>
             </div>
             <h3 className={styles.cardTheme}>{categories.cinema.aestheticTone}</h3>
-            <div className={styles.entityList}>
-              {categories.cinema.entities.map((ent, idx) => (
-                <div key={idx} className={styles.entityItem}>
-                  <div className={styles.entityHeader}>
-                    <span className={styles.entityName}>{ent.name}</span>
-                    <span className={styles.entityAffinity}>
-                      {Math.round((ent.affinityScore || 0.9) * 100)}% AFFINITY
-                    </span>
-                  </div>
-                  <p className={styles.entityDesc}>{ent.description}</p>
-                </div>
-              ))}
-            </div>
+            <EntityListSection
+              entities={categories.cinema.entities}
+              categoryKey="cinema"
+              isExpanded={Boolean(expanded.cinema)}
+              onToggle={handleToggle}
+            />
           </div>
           <div className={styles.cardFooter}>
             <span className={styles.footerDot} />
@@ -130,19 +156,12 @@ export function BlueprintCanvas({ blueprint }: BlueprintCanvasProps) {
               <span>FASHION</span>
             </div>
             <h3 className={styles.cardTheme}>{categories.sartorial.dressCode}</h3>
-            <div className={styles.entityList}>
-              {categories.sartorial.entities.map((ent, idx) => (
-                <div key={idx} className={styles.entityItem}>
-                  <div className={styles.entityHeader}>
-                    <span className={styles.entityName}>{ent.name}</span>
-                    <span className={styles.entityAffinity}>
-                      {Math.round((ent.affinityScore || 0.9) * 100)}% AFFINITY
-                    </span>
-                  </div>
-                  <p className={styles.entityDesc}>{ent.description}</p>
-                </div>
-              ))}
-            </div>
+            <EntityListSection
+              entities={categories.sartorial.entities}
+              categoryKey="sartorial"
+              isExpanded={Boolean(expanded.sartorial)}
+              onToggle={handleToggle}
+            />
           </div>
           <div className={styles.cardFooter}>
             <span className={styles.footerDot} />
@@ -158,19 +177,12 @@ export function BlueprintCanvas({ blueprint }: BlueprintCanvasProps) {
               <span>ATMOSPHERE</span>
             </div>
             <h3 className={styles.cardTheme}>{categories.spaces.architecturalAtmosphere}</h3>
-            <div className={styles.entityList}>
-              {categories.spaces.entities.map((ent, idx) => (
-                <div key={idx} className={styles.entityItem}>
-                  <div className={styles.entityHeader}>
-                    <span className={styles.entityName}>{ent.name}</span>
-                    <span className={styles.entityAffinity}>
-                      {Math.round((ent.affinityScore || 0.9) * 100)}% AFFINITY
-                    </span>
-                  </div>
-                  <p className={styles.entityDesc}>{ent.description}</p>
-                </div>
-              ))}
-            </div>
+            <EntityListSection
+              entities={categories.spaces.entities}
+              categoryKey="spaces"
+              isExpanded={Boolean(expanded.spaces)}
+              onToggle={handleToggle}
+            />
           </div>
           <div className={styles.cardFooter}>
             <span className={styles.footerDot} />

@@ -51,7 +51,8 @@ export async function runAgentOrchestrator(
     `Querying Qloo Insights API across music, film, dining, fashion, and spaces based on seed affinities.`
   );
   const insights = await runToolGetQlooInsights(
-    resolvedSeeds.map((s) => s.id)
+    resolvedSeeds.map((s) => s.id),
+    resolvedSeeds
   );
 
   recordStep(

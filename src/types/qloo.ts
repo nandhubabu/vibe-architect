@@ -32,6 +32,7 @@ export interface QlooSearchResult {
 
 export interface QlooInsightsRequest {
   entityIds: string[];
+  seedEntities?: QlooEntity[];
   targetCategories?: QlooCategory[];
   location?: {
     city?: string;

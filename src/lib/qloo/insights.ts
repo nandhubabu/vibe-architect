@@ -62,24 +62,36 @@ export async function getQlooInsights(
 ): Promise<QlooInsightsResponse> {
   const {
     entityIds,
+    seedEntities = [],
     targetCategories = ['music', 'film', 'dining', 'fashion', 'atmosphere'],
   } = request;
 
-  // 1. Resolve source seed entities from graph or ID lookups
-  const sourceEntities: QlooEntity[] = [];
+  // 1. Resolve source seed entities from seedEntities, graph, or live lookups
+  const sourceEntities: QlooEntity[] = [...seedEntities];
   const qlooSeedUuids: string[] = [];
 
+  for (const s of seedEntities) {
+    if (UUID_REGEX.test(s.id)) {
+      qlooSeedUuids.push(s.id);
+    }
+  }
+
   for (const id of entityIds) {
-    const matchedInGraph = CURATED_CULTURAL_GRAPH.find((e) => e.id === id);
-    if (matchedInGraph) {
-      sourceEntities.push(matchedInGraph);
+    const existing = sourceEntities.find((e) => e.id === id);
+    if (!existing) {
+      const matchedInGraph = CURATED_CULTURAL_GRAPH.find((e) => e.id === id);
+      if (matchedInGraph) {
+        sourceEntities.push(matchedInGraph);
+      }
     }
 
     if (UUID_REGEX.test(id)) {
-      qlooSeedUuids.push(id);
+      if (!qlooSeedUuids.includes(id)) {
+        qlooSeedUuids.push(id);
+      }
     } else {
       // Clean query and search Qloo for real entity UUID
-      const cleanQuery = (matchedInGraph?.name || id)
+      const cleanQuery = (id)
         .replace(/^(music-|film-|dining-|fashion-|space-)/, '')
         .replace(/-/g, ' ');
       try {
@@ -89,7 +101,7 @@ export async function getQlooInsights(
           if (!sourceEntities.some((s) => s.id === first.id)) {
             sourceEntities.push(first);
           }
-          if (UUID_REGEX.test(first.id)) {
+          if (UUID_REGEX.test(first.id) && !qlooSeedUuids.includes(first.id)) {
             qlooSeedUuids.push(first.id);
           }
         }
@@ -103,9 +115,7 @@ export async function getQlooInsights(
   if (sourceEntities.length === 0 && entityIds.length > 0) {
     sourceEntities.push({
       id: entityIds[0],
-      name: entityIds[0]
-        .replace(/^(music-|film-|dining-|fashion-|space-)/, '')
-        .replace(/-/g, ' '),
+      name: 'Curated Cultural Selection',
       category: 'music',
       affinityScore: 0.95,
       tags: ['curated', 'seed'],

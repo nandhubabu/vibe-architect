@@ -44,6 +44,9 @@ export function PromptHero({ onSynthesize, isLoading }: PromptHeroProps) {
 
       <form onSubmit={handleSubmit} className={styles.inputWrapper}>
         <input
+          id="moment-prompt"
+          name="moment-prompt"
+          aria-label="Describe your moment, guests, or space"
           type="text"
           className={styles.input}
           placeholder="Describe your moment, guests, or space (e.g. 'A candlelit vinyl listening party with Chet Baker and amaro')..."

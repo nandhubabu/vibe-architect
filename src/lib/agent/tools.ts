@@ -25,10 +25,12 @@ export async function runToolSearchQloo(
  */
 export async function runToolGetQlooInsights(
   entityIds: string[],
+  seedEntities?: QlooEntity[],
   targetCategories?: string[]
 ): Promise<QlooInsightsResponse> {
   return await getQlooInsights({
     entityIds,
+    seedEntities,
     targetCategories: (targetCategories as QlooCategory[]) || [
       'music',
       'film',

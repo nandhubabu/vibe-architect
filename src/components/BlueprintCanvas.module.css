@@ -197,6 +197,27 @@
   background-color: var(--accent-terracotta);
 }
 
+.expandToggle {
+  background: var(--bg-surface);
+  border: var(--border-hairline);
+  color: var(--accent-terracotta);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  padding: 8px 12px;
+  border-radius: var(--radius-minimal);
+  cursor: pointer;
+  margin-top: 6px;
+  transition: all 0.2s ease;
+  width: 100%;
+  text-align: center;
+}
+
+.expandToggle:hover {
+  background: var(--bg-hover);
+  border-color: var(--accent-terracotta);
+}
+
 @media (max-width: 860px) {
   .overviewSection {
     grid-template-columns: 1fr;
@@ -210,3 +231,4 @@
     width: 100%;
   }
 }
+
