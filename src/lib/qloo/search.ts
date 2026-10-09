@@ -139,13 +139,16 @@ export async function searchQlooEntities(
             typeof t === 'string' ? t : t.name || t.tag_id || ''
           ).filter(Boolean);
 
-          const desc =
-            item.description ||
-            item.properties?.biography ||
-            item.properties?.description ||
-            item.properties?.short_descriptions?.[0]?.value ||
-            item.disambiguation ||
-            undefined;
+          const queryTokens = trimmed.toLowerCase().split(/\s+/).filter((w) => w.length > 2);
+          const entityTokens = entityName.toLowerCase().split(/\s+/).filter((w) => w.length > 2);
+          const combinedTags = Array.from(
+            new Set([
+              trimmed.toLowerCase(),
+              ...queryTokens,
+              ...entityTokens,
+              ...tagList.map((t) => t.toLowerCase()),
+            ])
+          );
 
           return {
             id: entityId,
@@ -153,7 +156,7 @@ export async function searchQlooEntities(
             category,
             type: item.type || (item.types && item.types[0]),
             popularity: item.popularity || 0.85,
-            tags: tagList.length > 0 ? tagList : [trimmed.toLowerCase()],
+            tags: combinedTags,
             description: desc,
             metadata: {
               imageUrl: item.properties?.image?.url,

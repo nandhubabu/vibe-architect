@@ -148,11 +148,28 @@ export async function getQlooInsights(
           `${QLOO_CONFIG.endpoints.insights}?${params.toString()}`
         );
 
-        const rawEntities =
-          response.results?.entities || response.entities || [];
+        const INCOMPATIBLE_COMMERCIAL_CHAINS = [
+          'yard house',
+          'outback steakhouse',
+          'applebee',
+          'chili',
+          'buffalo wild wings',
+          'hooters',
+          'tgi fridays',
+          'red lobster',
+          'olive garden',
+          'cheesecake factory',
+        ];
 
-        if (rawEntities.length > 0) {
-          recommendations[cat] = rawEntities.slice(0, 5).map((item, idx) => {
+        const filteredRaw = rawEntities.filter((item) => {
+          const nameLower = (item.name || item.title || '').toLowerCase();
+          return !INCOMPATIBLE_COMMERCIAL_CHAINS.some((chain) =>
+            nameLower.includes(chain)
+          );
+        });
+
+        if (filteredRaw.length > 0) {
+          recommendations[cat] = filteredRaw.slice(0, 5).map((item, idx) => {
             const rawScore =
               item.query?.affinity ?? item.affinity_score ?? item.popularity ?? 0.9;
             const affinityScore = Math.min(
@@ -201,24 +218,74 @@ export async function getQlooInsights(
   }
 
   // 3. Cultural Graph Correlation Fill-in for any missing/empty categories
+  const isPubVenue =
+    (request.venueType || '').toLowerCase().includes('pub') ||
+    (request.venueType || '').toLowerCase().includes('tavern');
+
+  const PUB_SPECIFIC_WORDS = new Set(['pub', 'tavern', 'alehouse', 'cask', 'snug', 'bitter', 'bruges']);
   const allSeedTags = new Set<string>();
+
   for (const seed of sourceEntities) {
-    (seed.tags || []).forEach((t) => allSeedTags.add(t.toLowerCase()));
+    (seed.tags || []).forEach((t) => {
+      const lower = t.toLowerCase();
+      if (!isPubVenue && PUB_SPECIFIC_WORDS.has(lower)) return;
+      allSeedTags.add(lower);
+    });
+    (seed.name || '')
+      .toLowerCase()
+      .split(/[\s,–—-]+/)
+      .forEach((w) => {
+        if (w.length > 2) {
+          if (!isPubVenue && PUB_SPECIFIC_WORDS.has(w)) return;
+          allSeedTags.add(w);
+        }
+      });
+    (seed.subcategory || '')
+      .toLowerCase()
+      .split(/[\s,–—-]+/)
+      .forEach((w) => {
+        if (w.length > 2) {
+          if (!isPubVenue && PUB_SPECIFIC_WORDS.has(w)) return;
+          allSeedTags.add(w);
+        }
+      });
   }
 
   for (const cat of targetCategories) {
-    if (!recommendations[cat] || recommendations[cat].length === 0) {
+    const existingRecs = recommendations[cat] || [];
+    if (existingRecs.length < 3) {
       const candidatePool = CURATED_CULTURAL_GRAPH.filter(
-        (item) => item.category === cat
+        (item) =>
+          item.category === cat &&
+          !existingRecs.some(
+            (e) =>
+              e.id === item.id ||
+              e.name.toLowerCase() === item.name.toLowerCase()
+          )
       );
 
       const scoredPool = candidatePool.map((candidate) => {
         let sharedTagCount = 0;
         const candidateTags = candidate.tags || [];
 
-        for (const tag of candidateTags) {
-          if (allSeedTags.has(tag.toLowerCase())) {
-            sharedTagCount += 1;
+        const isCandidatePub = candidateTags.some((t) =>
+          ['pub', 'tavern', 'alehouse', 'snug'].includes(t.toLowerCase())
+        );
+
+        if (isPubVenue || !isCandidatePub) {
+          for (const tag of candidateTags) {
+            if (allSeedTags.has(tag.toLowerCase())) {
+              sharedTagCount += 1;
+            }
+          }
+
+          const candidateWords = `${candidate.name} ${candidate.subcategory || ''}`
+            .toLowerCase()
+            .split(/[\s,–—-]+/);
+          for (const word of candidateWords) {
+            if (word.length > 3 && allSeedTags.has(word)) {
+              sharedTagCount += 1;
+            }
           }
         }
 
@@ -243,7 +310,8 @@ export async function getQlooInsights(
         return (b.affinityScore || 0) - (a.affinityScore || 0);
       });
 
-      recommendations[cat] = scoredPool.slice(0, 3);
+      const needed = 3 - existingRecs.length;
+      recommendations[cat] = [...existingRecs, ...scoredPool.slice(0, needed)];
     }
   }
 

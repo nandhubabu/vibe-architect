@@ -26,7 +26,8 @@ export async function runToolSearchQloo(
 export async function runToolGetQlooInsights(
   entityIds: string[],
   seedEntities?: QlooEntity[],
-  targetCategories?: string[]
+  targetCategories?: string[],
+  venueType?: string
 ): Promise<QlooInsightsResponse> {
   return await getQlooInsights({
     entityIds,
@@ -38,5 +39,6 @@ export async function runToolGetQlooInsights(
       'fashion',
       'atmosphere',
     ],
+    venueType,
   });
 }

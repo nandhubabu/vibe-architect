@@ -34,6 +34,7 @@ export interface QlooInsightsRequest {
   entityIds: string[];
   seedEntities?: QlooEntity[];
   targetCategories?: QlooCategory[];
+  venueType?: string;
   location?: {
     city?: string;
     latitude?: number;

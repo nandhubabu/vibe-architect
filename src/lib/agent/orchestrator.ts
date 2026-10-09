@@ -42,11 +42,13 @@ export async function runAgentOrchestrator(
   }
 
   // Step 1: Deconstruct Human Request
+  const { intent, resolvedSeeds } = await parseAndResolveCulturalSeeds(prompt, userTasteTree);
   recordStep(
     'Intent Deconstruction',
-    'Analyzing aesthetic vocabulary, implicit spatial intent, and social context.'
+    intent.venueType
+      ? `Target venue identified: "${intent.venueType}". Occasion: "${intent.occasion}". Context: ${intent.socialContext}.`
+      : 'Analyzing aesthetic vocabulary, implicit spatial intent, and social context.'
   );
-  const { intent, resolvedSeeds } = await parseAndResolveCulturalSeeds(prompt, userTasteTree);
 
   // Step 2: Qloo Entity Resolution
   recordStep(
@@ -62,7 +64,9 @@ export async function runAgentOrchestrator(
   );
   const insights = await runToolGetQlooInsights(
     resolvedSeeds.map((s) => s.id),
-    resolvedSeeds
+    resolvedSeeds,
+    undefined,
+    intent.venueType
   );
 
   recordStep(

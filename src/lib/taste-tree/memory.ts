@@ -387,8 +387,8 @@ export function learnFromBlueprint(
       const newItem: TasteNodeItem = {
         id: `learned-${Date.now()}-${cat}`,
         name: topCandidate.name,
-        priority: 'medium',
-        weight: 4,
+        priority: 'low',
+        weight: 2,
         source: 'learned',
         timestamp: new Date().toISOString(),
       };
