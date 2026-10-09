@@ -109,7 +109,7 @@ Standard Large Language Models (LLMs) are trained on massive token distributions
         ┌────────────────┬───────────────┼───────────────┬────────────────┐
         ▼                ▼               ▼               ▼                ▼
    ┌─────────┐      ┌─────────┐     ┌─────────┐     ┌─────────┐      ┌─────────┐
-   │ 🎵 MUSIC │      │ 🎬 FILM │     │ 🍷 DINE │     │ ✂️ STYLE│      │ 🏛️ SPACE│
+   │🎵 MUSIC │      |🎬 FILM │     │ 🍷 DINE │     │ ✂️ STYLE│     │ 🏛️ SPACE│
    │ Priority│      │ Priority│     │ Priority│     │ Priority│      │ Priority│
    │  1x–5x  │      │  1x–5x  │     │  1x–5x  │     │  1x–5x  │      │  1x–5x  │
    └─────────┘      └─────────┘     └─────────┘     └─────────┘      └─────────┘
