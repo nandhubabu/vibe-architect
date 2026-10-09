@@ -149,6 +149,8 @@ export function BlueprintCanvas({ blueprint }: BlueprintCanvasProps) {
     downloadBlueprintPDF(blueprint);
   };
 
+  const displayScore = Number(culturalDNA.qlooAffinityScore || 90).toFixed(1);
+
   return (
     <article className={styles.canvasContainer}>
       {/* Editorial Masthead Meta */}
@@ -158,7 +160,7 @@ export function BlueprintCanvas({ blueprint }: BlueprintCanvasProps) {
           <p className={styles.blueprintSubtitle}>{blueprint.editorialSubtitle}</p>
         </div>
         <div className={styles.affinityScoreBox}>
-          <span className={styles.scoreValue}>{culturalDNA.qlooAffinityScore}%</span>
+          <span className={styles.scoreValue}>{displayScore}%</span>
           <span className={styles.scoreLabel}>QLOO TASTE GRAPH COHERENCE</span>
         </div>
       </div>
@@ -610,7 +612,7 @@ export function BlueprintCanvas({ blueprint }: BlueprintCanvasProps) {
               </p>
             </div>
             <span className={styles.entityAffinity}>
-              Overall Coherence: {culturalDNA.qlooAffinityScore}%
+              Overall Coherence: {displayScore}%
             </span>
           </div>
 
